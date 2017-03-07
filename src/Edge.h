@@ -8,7 +8,6 @@
 #ifndef EDGE_H_
 #define EDGE_H_
 
-using namespace std;
 
 template <class T> class Vertex;
 template <class T> class Graph;

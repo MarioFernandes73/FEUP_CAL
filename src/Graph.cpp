@@ -9,7 +9,7 @@
 
 #include "Graph.h"
 
-
+using namespace std;
 
 template <class T>
 bool Graph<T>::addVertex(const T &in) {

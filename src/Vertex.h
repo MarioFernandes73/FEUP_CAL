@@ -10,8 +10,6 @@
 
 #include <vector>
 
-using namespace std;
-
 template <class T> class Edge;
 template <class T> class Graph;
 

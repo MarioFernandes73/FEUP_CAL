@@ -13,8 +13,6 @@
 #include "Vertex.h"
 #include "Edge.h"
 
-using namespace std;
-
 template <class T>
 class Graph {
 private:
