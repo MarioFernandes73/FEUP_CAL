@@ -19,12 +19,32 @@ private:
 	T info;
 	std::vector<Edge<T>> adj;
 	bool visited;
+	bool processing;
+	int indegree;
+	double dist;
 public:
 	Vertex(T in);
 	friend class Graph<T>;
 
 	void addEdge(Vertex<T> * dest, double w);
 	bool removeEdgeTo(Vertex<T> * d);
+
+	T getInfo() const;
+	void setInfo(T info);
+
+	int getDist() const;
+	int getIndegree() const;
+
+	bool operator<(const Vertex<T> vertex);
+
+	Vertex* path;
+};
+
+template <class T>
+struct vertex_greater_than {
+    bool operator()(Vertex<T> * a, Vertex<T> * b) const {
+        return a->getDist() > b->getDist();
+    }
 };
 
 #endif /* VERTEX_H_ */

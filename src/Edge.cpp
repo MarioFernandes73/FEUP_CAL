@@ -8,7 +8,4 @@
 #include "Edge.h"
 
 template <class T>
-Edge<T>::Edge(Vertex<T> * d, double w){
-	this->dest = d;
-	this->weight = w;
-}
+Edge<T>::Edge(Vertex<T> *d, double w): dest(d), weight(w){}
