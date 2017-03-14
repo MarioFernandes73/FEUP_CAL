@@ -126,11 +126,11 @@ template <class T>
 vector<T> Graph<T>::dfs() const {
 	typename vector<Vertex<T>*>::const_iterator it= vertexSet.begin();
 	typename vector<Vertex<T>*>::const_iterator ite= vertexSet.end();
-	for (; it !=ite; it++)
+	for (; it !=ite; it++)		// reset every vertex state (false)
 		(*it)->visited=false;
 	vector<T> res;
 	it=vertexSet.begin();
-	for (; it !=ite; it++)
+	for (; it !=ite; it++)		//recursively run through every branch
 	    if ( (*it)->visited==false )
 	    	dfs(*it,res);
 	return res;
