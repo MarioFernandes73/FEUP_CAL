@@ -18,7 +18,7 @@ int main() {
 	// Initialisation
 
 	// call interface
-//ola
+	//initialMenu(management);
 	// save files
 	system("pause");
 	return 0;

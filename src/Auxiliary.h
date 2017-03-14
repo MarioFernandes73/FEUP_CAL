@@ -8,6 +8,10 @@
 #ifndef AUXILIARY_H_
 #define AUXILIARY_H_
 
+#define TAB "	"
+#define TAB_BIG "		"
+
 enum garbageType {glass, plastic, paper, generic};
+short int readUnsignedShortInt(unsigned short int first, unsigned short int last);
 
 #endif /* AUXILIARY_H_ */
