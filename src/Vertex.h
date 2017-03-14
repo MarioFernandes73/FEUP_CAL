@@ -17,7 +17,7 @@ template <class T>
 class Vertex {
 private:
 	T info;
-	std::vector<Edge<T>> adj;
+	std::vector<Edge<T> > adj;
 	bool visited;
 	bool processing;
 	int indegree;
