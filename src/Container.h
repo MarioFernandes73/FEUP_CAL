@@ -8,9 +8,10 @@
 #ifndef CONTAINER_H_
 #define CONTAINER_H_
 
+#include "Location.h"
 #include "Auxiliary.h"
 
-class Container {
+class Container : public Location {
 private:
 	garbageType type;
 	double quantity;
