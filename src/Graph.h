@@ -42,13 +42,13 @@ public:
 
 	//exercicio 5
 	Vertex<T>* getVertex(const T &v) const;
-	void resetIndegrees();
-	std::vector<Vertex<T>*> getSources() const;
+	void resetIndegrees();							//updates vertex's indegrees
+	std::vector<Vertex<T>*> getSources() const;		//returns source vertex's of the graph
 	int getNumCycles();
 	std::vector<T> topologicalOrder();
 	std::vector<T> getPath(const T &origin, const T &dest);
 	void unweightedShortestPath(const T &v);
-	bool isDAG();
+	bool isDAG();									//checks if graph is acyclic
 
 	//exercicio 6
 	void bellmanFordShortestPath(const T &s);

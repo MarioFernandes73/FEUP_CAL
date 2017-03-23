@@ -16,12 +16,13 @@ template <class T> class Graph;
 template <class T>
 class Vertex {
 private:
-	T info;
+	T info;	// location
 	std::vector<Edge<T> > adj;
 	bool visited;
 	bool processing;
 	int indegree;
 	double dist;
+	Vertex* path;
 public:
 	Vertex(T in);
 	friend class Graph<T>;
@@ -37,7 +38,6 @@ public:
 
 	bool operator<(const Vertex<T> vertex);
 
-	Vertex* path;
 };
 
 template <class T>
