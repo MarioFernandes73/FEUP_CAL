@@ -23,4 +23,11 @@ public:
 	friend class Vertex<T>;
 };
 
+#include "Edge.h"
+
+template <class T>
+Edge<T>::Edge(Vertex<T> *d, double w): dest(d), weight(w){}
+
+
+
 #endif /* EDGE_H_ */

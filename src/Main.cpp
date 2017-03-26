@@ -7,19 +7,20 @@
 //============================================================================
 
 #include "GarbageManagement.h"
+#include "Menu.h"
 
 int main() {
 
 	// variables declaration
-	GarbageManagement * management = new GarbageManagement();
+	GarbageManagement management = GarbageManagement();
 
 	// load files
 
 	// Initialisation
 
 	// call interface
-	//initialMenu(management);
+	initialOptions(management);
+
 	// save files
-	system("pause");
 	return 0;
 }

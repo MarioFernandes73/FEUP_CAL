@@ -6,9 +6,12 @@
  */
 
 #include "Station.h"
+#include <string>
 
-Station::Station() {
-	// TODO Auto-generated constructor stub
+using namespace std;
+
+Station::Station(string name, pair<double,double> coordinates):Location(name,coordinates) {
+
 
 }
 

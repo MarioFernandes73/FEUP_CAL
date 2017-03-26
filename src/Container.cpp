@@ -7,7 +7,9 @@
 
 #include "Container.h"
 
-Container::Container() {
+using namespace std;
+
+Container::Container(string name, pair<double,double> coordinates):Location(name, coordinates) {
 	// TODO Auto-generated constructor stub
 
 }

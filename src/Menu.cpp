@@ -9,8 +9,9 @@
 #include "Menu.h"
 #include "Auxiliary.h"
 //#include "MyExceptions.h"
-#include "Interface.h"
+#include "Interaction.h"
 #include <iostream>
+
 using namespace std;
 
 short int initialMenu()
@@ -20,7 +21,7 @@ short int initialMenu()
 	cout << endl << endl;
 	cout << TAB << "Choose your option";
 	cout << endl << endl;
-	cout << TAB << "1 - Menu of Students" << endl;
+	cout << TAB << "1 - Create Station" << endl;
 	cout << TAB << "0 - Save & Exit" << endl;
 	cout << endl;
 	cout << "Please write your option here: ";
@@ -47,8 +48,9 @@ void initialOptions(GarbageManagement & management)
 	while((option=initialMenu()))
 	switch (option)
 	{
+	case 1:
+		management.addStation(createStation());
 
-	break;
 	}
 }
 

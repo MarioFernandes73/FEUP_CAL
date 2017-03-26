@@ -8,25 +8,33 @@
 #ifndef GARBAGEMANAGEMENT_H_
 #define GARBAGEMANAGEMENT_H_
 
+
+
 #include <vector>
 
 #include "Vehicle.h"
 #include "graphviewer.h"
 #include "Graph.h"
+#include "Location.h"
+#include "Garage.h"
+#include "Station.h"
+#include "Container.h"
+
 
 class GarbageManagement {
 private:
-	//Graph graph;
+	Graph<Location> graph;
 	std::string name;
 	GraphViewer * viewer;
 	std::vector <Vehicle *> vehicles;
-	//3 vectors
+
 	std::vector <Garage *> garages;
 	std::vector <Container *> containers;
 	std::vector <Station *> stations;
 
 public:
 	GarbageManagement();
+	void addStation(Station * station);
 	virtual ~GarbageManagement();
 };
 

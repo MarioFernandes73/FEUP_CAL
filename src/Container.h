@@ -10,13 +10,14 @@
 
 #include "Location.h"
 #include "Auxiliary.h"
+#include <string>
 
 class Container : public Location {
 private:
 	garbageType type;
 	double quantity;
 public:
-	Container();
+	Container(std::string name, std::pair<double,double> coordinates);
 	virtual ~Container();
 };
 

@@ -5,9 +5,12 @@
  *      Author: Mário
  */
 
+#include <string>
 #include "Garage.h"
 
-Garage::Garage() {
+using namespace std;
+
+Garage::Garage(string name, pair<double,double> coordinates):Location(name, coordinates) {
 	// TODO Auto-generated constructor stub
 
 }

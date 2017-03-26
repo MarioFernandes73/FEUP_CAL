@@ -9,6 +9,7 @@
 #define GARAGE_H_
 
 #include <vector>
+#include <string>
 #include "Location.h"
 #include "Vehicle.h"
 
@@ -16,7 +17,7 @@ class Garage : public Location {
 private:
 	std::vector <Vehicle> vehicles;
 public:
-	Garage();
+	Garage(std::string name, std::pair<double,double> coordinates);
 	virtual ~Garage();
 };
 

@@ -10,12 +10,21 @@
 
 #include <string>
 
+
+
 class Location {
 private:
-	std::string nome;
-	std::pair<int,int> coordinates;
+	static int idCounter;
+	int id;
+	std::string name;
+	std::pair<double,double> coordinates;
 public:
-	Location();
+	Location(std::string name, std::pair<double,double> coordinates);
+	std::string getName();
+	std::pair<double,double> getCoordinates();
+	int getId();
+
+	bool operator == (const Location &m) const;
 	virtual ~Location();
 };
 
