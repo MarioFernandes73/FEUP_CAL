@@ -102,14 +102,14 @@ void GarbageManagement::shortestPathSingleContainer(int id)
 	// get container's location
 	for(int i = 0; i< this->containers.size(); i++)
 	{
-		if()
+	//	if()
 		{
 
 		}
 	}
 
 	// get container's vertex
-	this->graph.getVertex();
+	//this->graph.getVertex();
 
 }
 

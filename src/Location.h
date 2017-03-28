@@ -20,7 +20,7 @@ private:
 	std::pair<double,double> coordinates;
 public:
 	Location(std::string name, std::pair<double,double> coordinates);
-	Location(int id, pair<double,double> coordinates);
+	Location(int id, std::pair<double,double> coordinates);
 	std::string getName();
 	std::pair<double,double> getCoordinates();
 	int getId();
