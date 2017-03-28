@@ -17,7 +17,7 @@ private:
 	garbageType type;
 	double quantity;
 public:
-	Container(std::string name, std::pair<double,double> coordinates);
+	Container(std::string name, std::pair<double,double> coordinates, garbageType type, double quantity);
 	virtual ~Container();
 };
 

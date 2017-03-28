@@ -9,8 +9,9 @@
 
 using namespace std;
 
-Container::Container(string name, pair<double,double> coordinates):Location(name, coordinates) {
-	// TODO Auto-generated constructor stub
+Container::Container(string name, pair<double,double> coordinates, garbageType type, double quantity):Location(name, coordinates) {
+this->type = type;
+this->quantity = quantity;
 
 }
 

@@ -7,9 +7,11 @@
 
 #include "Vehicle.h"
 
-Vehicle::Vehicle() {
-	// TODO Auto-generated constructor stub
-
+Vehicle::Vehicle(std::string plate, garbageType type, double capacity) {
+this->plate = plate;
+this->type = type;
+this->capacity = capacity;
+this->full = false;
 }
 
 Vehicle::~Vehicle() {

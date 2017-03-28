@@ -45,24 +45,46 @@ void GarbageManagement::addGarage(Garage * garage)
 
 Location * GarbageManagement::getLocation(int id)
 {
+	Station * station = getStation(id);
+	if(station != NULL)
+		return station;
+	Garage * garage = getGarage(id);
+	if(garage != NULL)
+		return garage;
+	Container * container = getContainer(id);
+	if(container != NULL)
+		return container;
+
+	return NULL;
+}
+
+Station * GarbageManagement::getStation(int id)
+{
 	for(unsigned int i = 0; i < this->stations.size(); i++)
 	{
 		if(this->stations[i]->getId() == id)
 			return stations[i];
 	}
+	return NULL;
+}
 
+Garage * GarbageManagement::getGarage(int id)
+{
 	for(unsigned int i = 0; i < this->garages.size(); i++)
 	{
 		if(this->garages[i]->getId() == id)
 			return garages[i];
 	}
+	return NULL;
+}
 
+Container * GarbageManagement::getContainer(int id)
+{
 	for(unsigned int i = 0; i < this->containers.size(); i++)
 	{
 		if(this->containers[i]->getId() == id)
 			return containers[i];
 	}
-
 	return NULL;
 }
 
@@ -73,4 +95,22 @@ void GarbageManagement::addEdge(double weight, pair<int,int> vertexesCoord)
 	this->graph.addEdge((*sourceLocation), (*destLocation), weight);
 	this->viewer->addEdge(0,sourceLocation->getId(), destLocation->getId(),EdgeType().DIRECTED);
 	this->viewer->rearrange();
+}
+
+void GarbageManagement::calculateShortestPath(int id)
+{
+	Location * sourceLocation = getLocation(id);
+	this->graph.dijkstraShortestPath((*sourceLocation));
+}
+
+void GarbageManagement::addVehicle(Vehicle * vehicle, int id)
+{
+	Garage * garage = getGarage(id);
+	if(garage == NULL)
+	{
+		//throw exception...
+	}
+
+	garage->addVehicle(vehicle);
+
 }

@@ -58,7 +58,8 @@ void initialOptions(GarbageManagement & management)
 	case 3:management.addStation(createStation());
 	break;
 	case 4:management.addEdge(createEdgeWeight(),createEdge());
+	break;
+	case 5:management.calculateShortestPath(getSourceLocationID());
 
 	}
 }
-

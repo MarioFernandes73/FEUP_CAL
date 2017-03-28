@@ -23,7 +23,8 @@ Garage * createGarage();
 Container * createContainer();
 Station * createStation();
 
-
+int getSourceLocationID();
+int getDestLocationID();
 
 /*********
  * Edges *
@@ -31,5 +32,10 @@ Station * createStation();
 pair<int,int> createEdge();
 double createEdgeWeight();
 
+
+/************
+ * Vehicles *
+ ************/
+Vehicle * createVehicle();
 
 #endif /* INTERACTION_H_ */

@@ -13,12 +13,12 @@
 
 class Vehicle {
 private:
+	std::string plate;
 	garbageType type;
-	std::string matricula;
 	bool full;
 	double capacity;
 public:
-	Vehicle();
+	Vehicle(std::string plate, garbageType type, double capacity);
 	virtual ~Vehicle();
 };
 

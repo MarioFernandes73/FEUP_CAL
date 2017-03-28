@@ -38,8 +38,16 @@ public:
 	void addContainer(Container * container);
 	void addGarage(Garage * garage);
 	Location * getLocation(int id);
+	Station * getStation(int id);
+	Container * getContainer(int id);
+	Garage * getGarage(int id);
 
 	void addEdge(double weight, pair<int,int> vertexesCoord);
+
+	void addVehicle(Vehicle * vehicle, int id);
+
+	void calculateShortestPath(int id);
+
 	virtual ~GarbageManagement();
 };
 

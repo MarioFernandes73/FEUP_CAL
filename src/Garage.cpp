@@ -11,8 +11,12 @@
 using namespace std;
 
 Garage::Garage(string name, pair<double,double> coordinates):Location(name, coordinates) {
-	// TODO Auto-generated constructor stub
 
+}
+
+void Garage::addVehicle(Vehicle * vehicle)
+{
+	this->vehicles.push_back(vehicle);
 }
 
 Garage::~Garage() {
