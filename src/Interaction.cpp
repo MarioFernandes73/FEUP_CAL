@@ -40,10 +40,42 @@ void createLocation(string&name, pair<double,double>&coordinates )
 	coordinates.second = yCoord;
 }
 
+Garage * createGarage()
+{
+	string name;
+	pair<double,double> coordinates;
+	createLocation(name,coordinates);
+	return new Garage(name,coordinates);
+}
+
+Container * createContainer()
+{
+	string name;
+	pair<double,double> coordinates;
+	createLocation(name,coordinates);
+	return new Container(name,coordinates);
+}
+
 Station * createStation()
 {
 	string name;
 	pair<double,double> coordinates;
 	createLocation(name,coordinates);
 	return new Station(name,coordinates);
+}
+
+pair<int,int> createEdge()
+{
+	pair<int,int> vertexesIDs;
+	cout << "Enter the id of the source vertex: ";
+	vertexesIDs.first = getInt();
+	cout << "Enter the id of the destination vertex: ";
+	vertexesIDs.second = getInt();
+	return vertexesIDs;
+}
+
+double createEdgeWeight()
+{
+	cout << "Enter the weight of the edge: ";
+	return getDouble();
 }

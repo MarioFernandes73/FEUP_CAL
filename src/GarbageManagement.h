@@ -35,6 +35,11 @@ private:
 public:
 	GarbageManagement();
 	void addStation(Station * station);
+	void addContainer(Container * container);
+	void addGarage(Garage * garage);
+	Location * getLocation(int id);
+
+	void addEdge(double weight, pair<int,int> vertexesCoord);
 	virtual ~GarbageManagement();
 };
 

@@ -6,6 +6,7 @@
  */
 
 #include "GarbageManagement.h"
+#include "edgetype.h"
 
 GarbageManagement::GarbageManagement() {
 	this->viewer = new GraphViewer(640,480,false);
@@ -23,5 +24,53 @@ void GarbageManagement::addStation(Station * station)
 	this->stations.push_back(station);
 	this->graph.addVertex((*station));
 	this->viewer->addNode(station->getId(),station->getCoordinates().first, station->getCoordinates().second);
+	this->viewer->rearrange();
+}
+
+void GarbageManagement::addContainer(Container * container)
+{
+	this->containers.push_back(container);
+	this->graph.addVertex((*container));
+	this->viewer->addNode(container->getId(),container->getCoordinates().first, container->getCoordinates().second);
+	this->viewer->rearrange();
+}
+
+void GarbageManagement::addGarage(Garage * garage)
+{
+	this->garages.push_back(garage);
+	this->graph.addVertex((*garage));
+	this->viewer->addNode(garage->getId(),garage->getCoordinates().first, garage->getCoordinates().second);
+	this->viewer->rearrange();
+}
+
+Location * GarbageManagement::getLocation(int id)
+{
+	for(unsigned int i = 0; i < this->stations.size(); i++)
+	{
+		if(this->stations[i]->getId() == id)
+			return stations[i];
+	}
+
+	for(unsigned int i = 0; i < this->garages.size(); i++)
+	{
+		if(this->garages[i]->getId() == id)
+			return garages[i];
+	}
+
+	for(unsigned int i = 0; i < this->containers.size(); i++)
+	{
+		if(this->containers[i]->getId() == id)
+			return containers[i];
+	}
+
+	return NULL;
+}
+
+void GarbageManagement::addEdge(double weight, pair<int,int> vertexesCoord)
+{
+	Location * sourceLocation = getLocation(vertexesCoord.first);
+	Location * destLocation = getLocation(vertexesCoord.second);
+	this->graph.addEdge((*sourceLocation), (*destLocation), weight);
+	this->viewer->addEdge(0,sourceLocation->getId(), destLocation->getId(),EdgeType().DIRECTED);
 	this->viewer->rearrange();
 }

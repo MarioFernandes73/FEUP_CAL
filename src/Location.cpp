@@ -19,7 +19,7 @@ Location::Location(string name, pair<double,double> coordinates) {
 
 
 bool Location::operator ==(const Location &location) const{
-	return (this->name == location.name && this->coordinates == location.coordinates);
+	return (this->id == location.id);
 }
 
 int Location::getId(){return this->id;}

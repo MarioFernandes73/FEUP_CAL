@@ -14,4 +14,7 @@
 enum garbageType {glass, plastic, paper, generic};
 short int readUnsignedShortInt(unsigned short int first, unsigned short int last);
 
+int getInt();
+double getDouble();
+
 #endif /* AUXILIARY_H_ */

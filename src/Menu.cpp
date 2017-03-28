@@ -21,7 +21,10 @@ short int initialMenu()
 	cout << endl << endl;
 	cout << TAB << "Choose your option";
 	cout << endl << endl;
-	cout << TAB << "1 - Create Station" << endl;
+	cout << TAB << "1 - Create Garage" << endl;
+	cout << TAB << "2 - Create Container" << endl;
+	cout << TAB << "3 - Create Station" << endl;
+	cout << TAB << "4 - Create Street" << endl;
 	cout << TAB << "0 - Save & Exit" << endl;
 	cout << endl;
 	cout << "Please write your option here: ";
@@ -29,7 +32,7 @@ short int initialMenu()
 
 	while(true)
 	{
-		option = readUnsignedShortInt(0,1);
+		option = readUnsignedShortInt(0,4);
 		if(option <0)
 			cout << "Error, please choose your option: ";
 		else
@@ -48,8 +51,13 @@ void initialOptions(GarbageManagement & management)
 	while((option=initialMenu()))
 	switch (option)
 	{
-	case 1:
-		management.addStation(createStation());
+	case 1:management.addGarage(createGarage());
+	break;
+	case 2:management.addContainer(createContainer());
+	break;
+	case 3:management.addStation(createStation());
+	break;
+	case 4:management.addEdge(createEdgeWeight(),createEdge());
 
 	}
 }

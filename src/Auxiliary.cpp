@@ -42,3 +42,25 @@ short int readUnsignedShortInt(unsigned short int first, unsigned short int last
 
 	return -2;
 }
+
+int getInt()
+{
+	stringstream ss;
+	string temp;
+	int id;
+	getline(cin,temp);
+	ss << temp;
+	ss >> id;
+	return id;
+}
+
+double getDouble()
+{
+	stringstream ss;
+	string temp;
+	double id;
+	getline(cin,temp);
+	ss << temp;
+	ss >> id;
+	return id;
+}

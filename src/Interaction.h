@@ -11,10 +11,25 @@
 #include "Vertex.h"
 #include "Location.h"
 #include "Station.h"
+#include "Garage.h"
+#include "Container.h"
 
+
+/************
+ * Vertexes *
+ ************/
 void createLocation(string&name, pair<double,double>&coordinates);
+Garage * createGarage();
+Container * createContainer();
 Station * createStation();
 
+
+
+/*********
+ * Edges *
+ *********/
+pair<int,int> createEdge();
+double createEdgeWeight();
 
 
 #endif /* INTERACTION_H_ */
