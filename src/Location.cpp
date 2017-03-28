@@ -17,6 +17,13 @@ Location::Location(string name, pair<double,double> coordinates) {
 	Location::idCounter++;
 }
 
+
+Location::Location(int id)
+{
+	this->id = id;
+}
+
+
 Location::Location(int id, pair<double,double> coordinates)
 {
 	this->id = id;
