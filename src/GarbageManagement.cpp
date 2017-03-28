@@ -97,10 +97,20 @@ void GarbageManagement::addEdge(double weight, pair<int,int> vertexesCoord)
 	this->viewer->rearrange();
 }
 
-void GarbageManagement::calculateShortestPath(int id)
+void GarbageManagement::shortestPathSingleContainer(int id)
 {
-	Location * sourceLocation = getLocation(id);
-	this->graph.dijkstraShortestPath((*sourceLocation));
+	// get container's location
+	for(int i = 0; i< this->containers.size(); i++)
+	{
+		if()
+		{
+
+		}
+	}
+
+	// get container's vertex
+	this->graph.getVertex();
+
 }
 
 void GarbageManagement::addVehicle(int id, Vehicle * vehicle)

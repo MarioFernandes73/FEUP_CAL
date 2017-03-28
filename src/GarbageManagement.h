@@ -46,7 +46,7 @@ public:
 
 	void addVehicle(int id, Vehicle * vehicle);
 
-	void calculateShortestPath(int id);
+	void shortestPathSingleContainer(int id);
 
 	virtual ~GarbageManagement();
 };

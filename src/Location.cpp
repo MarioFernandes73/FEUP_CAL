@@ -17,6 +17,11 @@ Location::Location(string name, pair<double,double> coordinates) {
 	Location::idCounter++;
 }
 
+Location::Location(int id, pair<double,double> coordinates)
+{
+	this->id = id;
+	this->coordinates = coordinates;
+}
 
 bool Location::operator ==(const Location &location) const{
 	return (this->id == location.id);
