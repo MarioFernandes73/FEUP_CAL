@@ -56,8 +56,8 @@ Container * createContainer()
 	double quantity;
 	garbageType type;
 	createLocation(name,coordinates);
-	getGarbageType();
-	getQuantity();
+	type = getGarbageType();
+	quantity = getQuantity();
 
 	return new Container(name,coordinates,type,quantity);
 }
