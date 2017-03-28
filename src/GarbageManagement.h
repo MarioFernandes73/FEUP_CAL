@@ -44,7 +44,7 @@ public:
 
 	void addEdge(double weight, pair<int,int> vertexesCoord);
 
-	void addVehicle(Vehicle * vehicle, int id);
+	void addVehicle(int id, Vehicle * vehicle);
 
 	void calculateShortestPath(int id);
 

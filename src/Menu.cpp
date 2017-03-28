@@ -25,6 +25,7 @@ short int initialMenu()
 	cout << TAB << "2 - Create Container" << endl;
 	cout << TAB << "3 - Create Station" << endl;
 	cout << TAB << "4 - Create Street" << endl;
+	cout << TAB << "5 - Create Vehicle" << endl;
 	cout << TAB << "0 - Save & Exit" << endl;
 	cout << endl;
 	cout << "Please write your option here: ";
@@ -32,7 +33,7 @@ short int initialMenu()
 
 	while(true)
 	{
-		option = readUnsignedShortInt(0,4);
+		option = readUnsignedShortInt(0,5);
 		if(option <0)
 			cout << "Error, please choose your option: ";
 		else
@@ -59,7 +60,7 @@ void initialOptions(GarbageManagement & management)
 	break;
 	case 4:management.addEdge(createEdgeWeight(),createEdge());
 	break;
-	case 5:management.calculateShortestPath(getSourceLocationID());
+	case 5:management.addVehicle(getStationID(),createVehicle());
 
 	}
 }

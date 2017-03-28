@@ -103,7 +103,7 @@ void GarbageManagement::calculateShortestPath(int id)
 	this->graph.dijkstraShortestPath((*sourceLocation));
 }
 
-void GarbageManagement::addVehicle(Vehicle * vehicle, int id)
+void GarbageManagement::addVehicle(int id, Vehicle * vehicle)
 {
 	Garage * garage = getGarage(id);
 	if(garage == NULL)

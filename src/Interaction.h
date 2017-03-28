@@ -25,6 +25,7 @@ Station * createStation();
 
 int getSourceLocationID();
 int getDestLocationID();
+int getStationID();
 
 garbageType getGarbageType();
 double getQuantity();

@@ -95,6 +95,12 @@ Station * createStation()
 	return new Station(name,coordinates);
 }
 
+int getStationID()
+{
+	cout << "Enter the id of the station: ";
+	return getInt();
+}
+
 int getSourceLocationID()
 {
 	cout << "Enter the id of the source vertex: ";
