@@ -9,6 +9,7 @@
 #define LOCATION_H_
 
 #include <string>
+#include <fstream>
 
 
 

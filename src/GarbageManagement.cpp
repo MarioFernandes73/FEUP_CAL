@@ -88,6 +88,12 @@ Container * GarbageManagement::getContainer(int id)
 	return NULL;
 }
 
+
+Graph<Location> GarbageManagement::getGraph()
+{
+	return this->graph;
+}
+
 void GarbageManagement::addEdge(double weight, pair<int,int> vertexesCoord)
 {
 	Location * sourceLocation = getLocation(vertexesCoord.first);

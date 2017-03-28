@@ -41,6 +41,7 @@ public:
 	Station * getStation(int id);
 	Container * getContainer(int id);
 	Garage * getGarage(int id);
+	Graph<Location> getGraph();
 
 	void addEdge(double weight, pair<int,int> vertexesCoord);
 
