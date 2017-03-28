@@ -14,6 +14,16 @@ this->capacity = capacity;
 this->full = false;
 }
 
+void Vehicle::fillVehicle()
+{
+	this->full = true;
+}
+
+void Vehicle::clearVehicle()
+{
+	this->full = false;
+}
+
 Vehicle::~Vehicle() {
 	// TODO Auto-generated destructor stub
 }

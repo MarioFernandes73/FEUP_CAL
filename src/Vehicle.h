@@ -19,6 +19,8 @@ private:
 	double capacity;
 public:
 	Vehicle(std::string plate, garbageType type, double capacity);
+	void clearVehicle();
+	void fillVehicle();
 	virtual ~Vehicle();
 };
 
