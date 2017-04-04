@@ -25,6 +25,7 @@ void getVertexParser(GarbageManagement &theGarbageManagement)
 	firstLine = firstLine.substr(firstLine.find(";") + 2);
 	string stringLatitudeDegrees = firstLine.substr(0, firstLine.find(";"));
 	stringstream thelatitudeDegrees;
+
 	thelatitudeDegrees << stringLatitudeDegrees;
 	double LatitudeDegrees;
 	thelatitudeDegrees >> LatitudeDegrees;
@@ -39,40 +40,56 @@ void getVertexParser(GarbageManagement &theGarbageManagement)
 	pair <double, double> thePair (LatitudeDegrees, LongitudeDegrees);
 	Location theFirstLocation(theID, thePair);
 	theGarbageManagement.getGraph().addVertex(theFirstLocation);
+	cout << theFirstLocation.getId() << endl;
+	cout << theFirstLocation.getCoordinates().first << endl;
+	cout << theFirstLocation.getCoordinates().second << endl;
+	cout << "Size: " << theGarbageManagement.getGraph().getVertexSet().size() << endl;
 
+	int counter = 0;
 	while (!VertexFile.eof())
 	{
+		counter++;
 		string eachLine;
 		getline(VertexFile, eachLine);
-		string stringID = eachLine.substr(0, eachLine.find(";"));
-		stringstream thestringID;
-		thestringID << stringID;
-		long theID;
-		thestringID >> theID;
+		string stringID2 = eachLine.substr(0, eachLine.find(";"));
+		stringstream thestringID2;
+		thestringID2 << stringID2;
+		long theID2;
+		thestringID2 >> theID2;
+		thestringID2.clear();
+		thestringID2.str("");
 
 		eachLine = eachLine.substr(eachLine.find(";") + 2);
-		string stringLatitudeDegrees = eachLine.substr(0, eachLine.find(";"));
-		stringstream thelatitudeDegrees;
-		thelatitudeDegrees << stringLatitudeDegrees;
-		double LatitudeDegrees;
-		thelatitudeDegrees >> LatitudeDegrees;
+		string stringLatitudeDegrees2 = eachLine.substr(0, eachLine.find(";"));
+		stringstream thelatitudeDegrees2;
+		thelatitudeDegrees2 << stringLatitudeDegrees2;
+		double LatitudeDegrees2;
+		thelatitudeDegrees2 >> LatitudeDegrees2;
+		thelatitudeDegrees2.clear();
+		thelatitudeDegrees2.str("");
 
 		eachLine = eachLine.substr(eachLine.find(";") + 2);
-		string stringLongitudeDegrees = eachLine.substr(0, eachLine.find(";"));
-		stringstream theLongitudeDegrees;
-		theLongitudeDegrees << stringLongitudeDegrees;
-		double LongitudeDegrees;
-		theLongitudeDegrees >> LongitudeDegrees;
+		string stringLongitudeDegrees2 = eachLine.substr(0, eachLine.find(";"));
+		stringstream theLongitudeDegrees2;
+		theLongitudeDegrees2 << stringLongitudeDegrees2;
+		double LongitudeDegrees2;
+		theLongitudeDegrees2 >> LongitudeDegrees2;
+		theLongitudeDegrees2.clear();
+		theLongitudeDegrees2.str("");
 
-		pair <double, double> thePair (LatitudeDegrees, LongitudeDegrees);
-		Location theFirstLocation(theID, thePair);
-		theGarbageManagement.getGraph().addVertex(theFirstLocation);
+		pair <double, double> thePair2 (LatitudeDegrees2, LongitudeDegrees2);
+		Location theFirstLocation2(theID2, thePair2);
+		theGarbageManagement.getGraph().addVertex(theFirstLocation2);
 	}
+	cout << counter;
 	VertexFile.close();
+
+	//theGarbageManagement.getGraph().getNumVertex();
+	cout << "Size: " << theGarbageManagement.getGraph().getVertexSet().size() << endl;
 }
 
 
-void getEdgeParser(GarbageManagement &theGarbageManagement)
+void getEdgesParser(GarbageManagement &theGarbageManagement)
 {
 	ifstream EdgeFile("Edges.txt");
 
@@ -111,6 +128,8 @@ void getEdgeParser(GarbageManagement &theGarbageManagement)
 		thestringID2 << stringID2;
 		long theID2;
 		thestringID2 >> theID2;
+		thestringID2.clear();
+		thestringID2.str("");
 
 		eachLine = eachLine.substr(eachLine.find(";") + 2);
 		string stringFirstVertexId2 = eachLine.substr(0, eachLine.find(";"));
@@ -118,6 +137,8 @@ void getEdgeParser(GarbageManagement &theGarbageManagement)
 		thefirstVertexId2 << stringFirstVertexId2;
 		long FirstVertexId2;
 		thefirstVertexId2 >> FirstVertexId2;
+		thefirstVertexId2.clear();
+		thefirstVertexId2.str("");
 
 		eachLine = eachLine.substr(eachLine.find(";") + 2);
 		string stringSecondVertexId2 = eachLine.substr(0, eachLine.find(";"));
@@ -125,11 +146,14 @@ void getEdgeParser(GarbageManagement &theGarbageManagement)
 		thesecondVertexId2 << stringSecondVertexId2;
 		long SecondVertexId2;
 		thesecondVertexId2 >> SecondVertexId2;
+		thesecondVertexId2.clear();
+		thesecondVertexId2.str("");
 
 		Location firstVertex2(FirstVertexId2);
 		Location secondVertex2(SecondVertexId2);
 		theGarbageManagement.getGraph().addEdge(firstVertex2, secondVertex2, 0);
 	}
 	EdgeFile.close();
+
 }
 

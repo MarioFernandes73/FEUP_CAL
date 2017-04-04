@@ -8,18 +8,17 @@
 #ifndef SRC_PARSEROSM_H_
 #define SRC_PARSEROSM_H_
 
-#include "Vertex.h"
 #include "GarbageManagement.h"
 #include <string>
 #include <sstream>
 #include <fstream>
 
 
-void getVertexParser();
+void getVertexParser(GarbageManagement &theGarbageManagement);
 
-void getEdgesParser();
+void getEdgesParser(GarbageManagement &theGarbageManagement);
 
-void getEdgeNamesParser();
+void getEdgeNamesParser(GarbageManagement &theGarbageManagement);
 
 
 
