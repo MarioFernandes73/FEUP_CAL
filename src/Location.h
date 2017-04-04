@@ -10,6 +10,8 @@
 
 #include <string>
 #include "Auxiliary.h"
+#include <fstream>
+
 
 
 class Location {
@@ -22,6 +24,7 @@ private:
 	bool full;
 public:
 	Location();
+	Location(int id);
 	Location(std::string name, std::pair<double,double> coordinates);
 	Location(int id, std::pair<double,double> coordinates);
 	std::string getName();

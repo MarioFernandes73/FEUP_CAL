@@ -47,6 +47,7 @@ public:
 	Container * getContainer(int id);
 	Garage * getGarage(int id);
 	vector<Garage *> getValidGarages(Container * container);
+	Graph<Location> getGraph();
 
 	void addEdge(double weight, pair<int,int> vertexesID);
 

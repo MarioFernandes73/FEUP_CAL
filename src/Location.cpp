@@ -22,7 +22,8 @@ Location::Location(string name, pair<double,double> coordinates):type(locationTy
 	Location::idCounter++;
 }
 
-Location::Location(int id, pair<double,double> coordinates):type(locationType::location)
+
+Location::Location(int id, pair<double,double> coordinates)
 {
 	this->id = id;
 	this->coordinates = coordinates;

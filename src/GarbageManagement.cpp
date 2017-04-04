@@ -127,10 +127,15 @@ Container * GarbageManagement::getContainer(int id)
 	return NULL;
 }
 
-void GarbageManagement::addEdge(double weight, pair<int,int> vertexesID)
+Graph<Location> GarbageManagement::getGraph()
 {
-	Location * sourceLocation = getLocation(vertexesID.first);
-	Location * destLocation = getLocation(vertexesID.second);
+	return this->graph;
+}
+
+void GarbageManagement::addEdge(double weight, pair<int,int> vertexesCoord)
+{
+	Location * sourceLocation = getLocation(vertexesCoord.first);
+	Location * destLocation = getLocation(vertexesCoord.second);
 	this->graph.addEdge((*sourceLocation), (*destLocation), weight);
 	this->viewer->addEdge(edgeCounter,sourceLocation->getId(), destLocation->getId(),EdgeType().DIRECTED);
 	this->viewer->rearrange();
