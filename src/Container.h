@@ -15,12 +15,11 @@
 class Container : public Location {
 private:
 	garbageType type;
-	bool full;
 	double capacity;
 public:
 	Container(std::string name, std::pair<double,double> coordinates, garbageType type, double capacity);
-	void fillContainer();
-	void clearContainer();
+	garbageType getType();
+	double getCapacity();
 	virtual ~Container();
 };
 

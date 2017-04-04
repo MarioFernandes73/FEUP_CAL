@@ -17,8 +17,10 @@ class Garage : public Location {
 private:
 	std::vector <Vehicle * > vehicles;
 public:
+	Garage(){}
 	Garage(std::string name, std::pair<double,double> coordinates);
 	void addVehicle(Vehicle * vehicle);
+	std::vector <Vehicle *> getVehicles();
 	virtual ~Garage();
 };
 

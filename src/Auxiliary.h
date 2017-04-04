@@ -12,7 +12,9 @@
 #define TAB_BIG "		"
 
 enum garbageType {glass, plastic, paper, generic};
+enum locationType {location, garage, container, station};
 short int readUnsignedShortInt(unsigned short int first, unsigned short int last);
+
 
 int getInt();
 double getDouble();

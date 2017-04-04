@@ -11,12 +11,17 @@
 using namespace std;
 
 Garage::Garage(string name, pair<double,double> coordinates):Location(name, coordinates) {
-
+	this->setType(locationType::garage);
 }
 
 void Garage::addVehicle(Vehicle * vehicle)
 {
 	this->vehicles.push_back(vehicle);
+}
+
+vector<Vehicle *> Garage::getVehicles()
+{
+	return this->vehicles;
 }
 
 Garage::~Garage() {
