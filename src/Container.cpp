@@ -10,19 +10,19 @@
 using namespace std;
 
 Container::Container(string name, pair<double,double> coordinates, garbageType type, double quantity):Location(name, coordinates) {
-this->full = false;
 this->type = type;
-this->capacity = capacity;
+this->capacity = quantity;
+this->setType(locationType::container);
 }
 
-void Container::fillContainer()
+garbageType Container::getType()
 {
-	this->full = true;
+return this->type;
 }
 
-void Container::clearContainer()
+double Container::getCapacity()
 {
-	this->full = false;
+	return this->capacity;
 }
 
 Container::~Container() {

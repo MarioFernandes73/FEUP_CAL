@@ -11,8 +11,7 @@
 using namespace std;
 
 Station::Station(string name, pair<double,double> coordinates):Location(name,coordinates) {
-
-
+	this->setType(locationType::station);
 }
 
 Station::~Station() {
