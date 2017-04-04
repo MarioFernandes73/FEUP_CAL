@@ -42,6 +42,10 @@ public:
 	Container * getContainer(int id);
 	Garage * getGarage(int id);
 
+	void removeStation(Station * station);
+	void removeContainer(Container * container);
+	void removeGarage(Garage * garage);
+
 	void addEdge(double weight, pair<int,int> vertexesCoord);
 
 	void addVehicle(int id, Vehicle * vehicle);

@@ -8,7 +8,7 @@
 
 #include "Menu.h"
 #include "Auxiliary.h"
-//#include "MyExceptions.h"
+#include "MyExceptions.h"
 #include "Interaction.h"
 #include <iostream>
 
@@ -33,14 +33,14 @@ short int initialMenu()
 
 	while(true)
 	{
-		option = readUnsignedShortInt(0,5);
-		if(option <0)
-			cout << "Error, please choose your option: ";
-		else
+		try{
+			option = readUnsignedShortInt(0,5);
 			break;
+		}
+		catch(NoValidEntry& e){
+			cout << "You have entered a non valid entry. Please insert a valid entry." << endl;
+		}
 	}
-
-
 
 	return option;
 }
@@ -50,17 +50,22 @@ void initialOptions(GarbageManagement & management)
 	unsigned short int option;
 
 	while((option=initialMenu()))
-	switch (option)
-	{
-	case 1:management.addGarage(createGarage());
-	break;
-	case 2:management.addContainer(createContainer());
-	break;
-	case 3:management.addStation(createStation());
-	break;
-	case 4:management.addEdge(createEdgeWeight(),createEdge());
-	break;
-	case 5:management.addVehicle(getStationID(),createVehicle());
 
+	try{
+		switch (option)
+		{
+		case 1:management.addGarage(createGarage());
+		break;
+		case 2:management.addContainer(createContainer());
+		break;
+		case 3:management.addStation(createStation());
+		break;
+		case 4:management.addEdge(createEdgeWeight(),createEdge());
+		break;
+		case 5:management.addVehicle(getStationID(),createVehicle());
+		}
+	}
+	catch(NoValidEntry& e){
+		cout << endl << "You have entered a non valid entry." << endl;
 	}
 }

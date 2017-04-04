@@ -9,10 +9,10 @@
 #include "edgetype.h"
 
 GarbageManagement::GarbageManagement() {
-	this->viewer = new GraphViewer(640,480,false);
-	this->viewer->createWindow(640, 480);
-	this->viewer->defineVertexColor("blue");
-	this->viewer->defineEdgeColor("black");
+//	this->viewer = new GraphViewer(640,480,false);
+//	this->viewer->createWindow(640, 480);
+//	this->viewer->defineVertexColor("blue");
+//	this->viewer->defineEdgeColor("black");
 }
 
 GarbageManagement::~GarbageManagement() {
@@ -40,6 +40,48 @@ void GarbageManagement::addGarage(Garage * garage)
 	this->garages.push_back(garage);
 	this->graph.addVertex((*garage));
 	this->viewer->addNode(garage->getId(),garage->getCoordinates().first, garage->getCoordinates().second);
+	this->viewer->rearrange();
+}
+
+void GarbageManagement::removeStation(Station * station){
+	std::vector<Station*>::iterator it;
+
+	for(it = stations.begin(); it != stations.end(); it++){
+		if((*it) == station){
+			stations.erase(it);
+			break;
+		}
+	}
+	this->graph.removeVertex((*station));
+	this->viewer->removeNode(station->getId());
+	this->viewer->rearrange();
+}
+
+void GarbageManagement::removeContainer(Container * container){
+	std::vector<Container*>::iterator it;
+
+	for(it = containers.begin(); it != containers.end(); it++){
+		if((*it) == container){
+			containers.erase(it);
+			break;
+		}
+	}
+	this->graph.removeVertex((*container));
+	this->viewer->removeNode(container->getId());
+	this->viewer->rearrange();
+}
+
+void GarbageManagement::removeGarage(Garage * garage){
+	std::vector<Garage*>::iterator it;
+
+	for(it = garages.begin(); it != garages.end(); it++){
+		if((*it)->getId() == garage->getId()){
+			garages.erase(it);
+			break;
+		}
+	}
+	this->graph.removeVertex((*garage));
+	this->viewer->removeNode(garage->getId());
 	this->viewer->rearrange();
 }
 

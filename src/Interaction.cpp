@@ -9,8 +9,24 @@
 #include <sstream>
 #include <string>
 #include "Interaction.h"
+#include "MyExceptions.h"
 
 using namespace std;
+
+bool isValidCoordinate(string temp){
+	bool flag = 0;
+
+	for(unsigned int i = 0; i < temp.size(); i++){
+		if(flag == 0 && temp[i] == '.'){
+			flag++;
+			continue;
+		}
+		if(!isdigit(temp[i]) || (flag > 0 && temp[i] == '.'))
+			return false;
+	}
+	return true;
+}
+
 
 void createLocation(string&name, pair<double,double>&coordinates )
 {
@@ -21,9 +37,18 @@ void createLocation(string&name, pair<double,double>&coordinates )
 
 	getline(cin,name);
 
+	if(isdigit(name[0])){
+		throw NoValidEntry();
+	}
+
 	cout << "Enter the x coordinate of the location: ";
 
 	getline(cin,temp);
+
+	if(!isValidCoordinate(temp)){
+		throw NoValidEntry();
+	}
+
 	ss << temp;
 	ss >> xCoord;
 	ss.clear();
@@ -32,6 +57,11 @@ void createLocation(string&name, pair<double,double>&coordinates )
 	cout << "Enter the y coordinate of the location: ";
 
 	getline(cin,temp);
+
+	if(!isValidCoordinate(temp)){
+		throw NoValidEntry();
+	}
+
 	ss << temp;
 	ss >> yCoord;
 	ss.clear();
@@ -45,6 +75,7 @@ Garage * createGarage()
 {
 	string name;
 	pair<double,double> coordinates;
+
 	createLocation(name,coordinates);
 	return new Garage(name,coordinates);
 }
@@ -55,10 +86,10 @@ Container * createContainer()
 	pair<double,double> coordinates;
 	double quantity;
 	garbageType type;
+
 	createLocation(name,coordinates);
 	type = getGarbageType();
 	quantity = getQuantity();
-
 	return new Container(name,coordinates,type,quantity);
 }
 
@@ -74,7 +105,7 @@ garbageType getGarbageType()
 	int typeId;
 	cout << "Enter the type of garbage it will be responsible for (glass - 1, plastic - 2, paper - 3, generic - 4): ";
 	typeId = readUnsignedShortInt(1,4);
-	switch(typeId)
+	/*switch(typeId)
 	{
 	case 1: type = garbageType::glass;
 	break;
@@ -83,7 +114,7 @@ garbageType getGarbageType()
 	case 3: type = garbageType::paper;
 	break;
 	case 4: type = garbageType::generic;
-	}
+	}*/
 	return type;
 }
 
@@ -91,6 +122,7 @@ Station * createStation()
 {
 	string name;
 	pair<double,double> coordinates;
+
 	createLocation(name,coordinates);
 	return new Station(name,coordinates);
 }
@@ -120,6 +152,8 @@ pair<int,int> createEdge()
 	vertexesIDs.second = getDestLocationID();
 	return vertexesIDs;
 }
+
+
 
 double createEdgeWeight()
 {

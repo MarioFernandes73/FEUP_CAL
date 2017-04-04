@@ -10,6 +10,7 @@
 #include <iostream>
 
 #include "Auxiliary.h"
+#include "MyExceptions.h"
 
 using namespace std;
 
@@ -30,7 +31,7 @@ short int readUnsignedShortInt(unsigned short int first, unsigned short int last
 	{
 		if(!isdigit(temp[i]))
 		{
-			return -1;
+			throw NoValidEntry();
 		}
 	}
 
@@ -40,7 +41,7 @@ short int readUnsignedShortInt(unsigned short int first, unsigned short int last
 	if(first <= input && input <= last)
 	return input;
 
-	return -2;
+	throw NoValidEntry();
 }
 
 int getInt()
