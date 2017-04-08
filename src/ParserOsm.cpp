@@ -22,6 +22,9 @@ void vertexParser(GarbageManagement & garbageManagement)
 		pair<double,double> coordinates;
 		getline(VertexFile, line);
 
+		if(line == "")
+			break;
+
 		temp = line.substr(0, line.find(";"));
 		ss << temp;
 		ss >> id;
@@ -60,6 +63,10 @@ void edgesParser(GarbageManagement &garbageManagement)
 		long id;
 		pair<long,long> vertexIds;
 		getline(EdgeFile, line);
+
+		if(line == "")
+			break;
+
 		temp = line.substr(0, line.find(";"));
 		ss << temp;
 		ss >> id;
@@ -87,3 +94,44 @@ void edgesParser(GarbageManagement &garbageManagement)
 
 }
 
+
+void saveVertexes(GarbageManagement &garbageManagement)
+{
+	ofstream VertexFile("Vertex.txt");
+
+	for(unsigned int i = 0; i <garbageManagement.getGenericLocations().size(); i++)
+	{
+		Location * location = garbageManagement.getGenericLocations()[i];
+		VertexFile << location->getId() << ";" << location->getCoordinates().first << ";" << location->getCoordinates().second << endl;
+	}
+
+	for(unsigned int i = 0; i <garbageManagement.getGarages().size(); i++)
+	{
+		Location * location = garbageManagement.getGarages()[i];
+		VertexFile << location->getId() << ";" << location->getCoordinates().first << ";" << location->getCoordinates().second << endl;
+	}
+
+	for(unsigned int i = 0; i <garbageManagement.getContainers().size(); i++)
+	{
+		Location * location = garbageManagement.getContainers()[i];
+		VertexFile << location->getId() << ";" << location->getCoordinates().first << ";" << location->getCoordinates().second << endl;
+	}
+
+	for(unsigned int i = 0; i <garbageManagement.getStations().size(); i++)
+	{
+		Location * location = garbageManagement.getStations()[i];
+		VertexFile << location->getId() << ";" << location->getCoordinates().first << ";" << location->getCoordinates().second << endl;
+	}
+
+}
+
+
+void saveEdges(GarbageManagement &garbageManagement)
+{
+	ofstream EdgeFile("Edges.txt");
+
+	for (map<pair<long,long>,long>::iterator it=garbageManagement.getEdges().begin(); it!=garbageManagement.getEdges().end(); ++it)
+	{
+		EdgeFile << it->second << ";" << it->first.first << ";" << it->first.second << endl;
+	}
+}

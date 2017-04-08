@@ -193,3 +193,9 @@ string getPlate()
 	getline(cin,temp);
 	return temp;
 }
+
+int getAlgorithm()
+{
+	cout << "Enter the algorithm you wish to use (1 - FloydWarshall, 2 - Dijkstra): ";
+	return readUnsignedShortInt(1,2);
+}

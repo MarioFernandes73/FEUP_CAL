@@ -14,10 +14,11 @@
 #include <fstream>
 
 
-void vertexParser(GarbageManagement &theGarbageManagement);
+void vertexParser(GarbageManagement &garbageManagement);
+void edgesParser(GarbageManagement &garbageManagement);
 
-void edgesParser(GarbageManagement &theGarbageManagement);
-
+void saveVertexes(GarbageManagement &garbageManagement);
+void saveEdges(GarbageManagement &garbageManagement);
 
 
 #endif /* SRC_PARSEROSM_H_ */

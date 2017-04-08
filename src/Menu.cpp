@@ -117,7 +117,7 @@ void initialOptions(GarbageManagement & management)
 		break;
 		case 4: settingsOptions(management);
 		break;
-		case 5: management.collectGarbage();
+		case 5: management.simulatePath(management.collectGarbage(getAlgorithm()));
 		}
 	}
 	catch(OutOfBondsException& e){

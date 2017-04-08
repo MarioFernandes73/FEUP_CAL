@@ -24,6 +24,7 @@
 
 class GarbageManagement {
 private:
+	int algorithm;
 	static long edgeCounter;
 	Graph<Location> graph;
 	std::string name;
@@ -38,12 +39,20 @@ private:
 
 public:
 	GarbageManagement();
+
+	Graph<Location> getGraph(){return this->graph;}
+	std::vector <Location *> getGenericLocations(){return this->genericLocations;}
+	std::vector <Garage *> getGarages(){return this->garages;}
+	std::vector <Container *> getContainers(){return this->containers;}
+	std::vector <Station *> getStations(){return this->stations;}
+	std::map<std::pair<long,long>,long> getEdges(){return this->edges;}
+
 	void addLocation(Location * location);
 	void addStation(Station * station);
 	void addContainer(Container * container);
 	void addGarage(Garage * garage);
-	void addEdge(double weight, pair<long,long> vertexesCoord);
-	void addVehicle(int id, Vehicle * vehicle);
+	void addEdge(double weight, std::pair<long,long> vertexesCoord);
+	void addVehicle(int id, Vehicle * vehicle);;
 
 	Location * getGenericLocation(long id);
 	Location * getLocation(long id);
@@ -52,7 +61,6 @@ public:
 	Container * getContainer(long id);
 	Garage * getGarage(long id);
 	vector<Garage *> getValidGarages(Container * container);
-	Graph<Location> getGraph();
 
 	void removeLocation(long id);
 	void removeStation(long id);
@@ -68,14 +76,8 @@ public:
 	void fillContainer(long id);
 	void clearContainer(long id);
 
-	void shortestPathSingleContainer(int id);
-	vector<Location> calculateBestPath(vector<vector<Location>> paths);
-	double calculatePathScore(vector<Location> path);
-	vector<Location> calculateClosestStation(Location location);
-
-
-	void collectGarbage();
-	pair<Location,Location>calculateBestVertexes(std::vector<Location> locations);
+	vector<vector<Location>> collectGarbage(int algorithm);
+	std::pair<Location,Location>calculateBestVertexes(std::vector<Location> locations);
 	double calculateScoreVertexLocations (Location currentLocation, std::vector<Location> locations);
 	std::vector<Garage> getPossibleGarages(std::vector<Location> locations);
 	void calculateBestStart(std::pair<Location,Location>&startEndVertexes, std::vector<Garage> possibleGarages, Garage &bestGarage);
@@ -84,9 +86,13 @@ public:
 	bool garagesHasPossibleVehicle(Garage garage, Location location);
 	Vehicle * getBestVehicle(Garage garage);
 	void moveToStation(Vehicle * vehicle, std::vector<Location>&currentPath);
-	void resetVehicles();
+	std::vector<Location> calculateBestPath(std::vector<std::vector<Location>> paths);
+	double calculatePathScore(std::vector<Location> path);
 
 	void startTests();
+	void resetVehicles();
+	void updateGraph(Location * location);
+	void simulatePath(vector<vector<Location>> paths);
 
 	virtual ~GarbageManagement();
 };

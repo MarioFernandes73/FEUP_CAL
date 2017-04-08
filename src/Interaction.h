@@ -39,10 +39,12 @@ double getQuantity();
 pair<long,long> createEdge();
 double createEdgeWeight();
 
-
 /************
  * Vehicles *
  ************/
 Vehicle * createVehicle();
+
+
+int getAlgorithm();
 
 #endif /* INTERACTION_H_ */

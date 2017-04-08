@@ -10,6 +10,7 @@
 #include "MyExceptions.h"
 #include <sstream>
 #include <algorithm>
+#include <ctime>
 
 long GarbageManagement::edgeCounter=0;
 const int typeGarage = 1;
@@ -85,6 +86,7 @@ void GarbageManagement::addVehicle(int id, Vehicle * vehicle)
 {
 	Garage * garage = getGarage(id);
 	garage->addVehicle(vehicle);
+	updateGraph(garage);
 }
 
 void GarbageManagement::removeLocation(long id)
@@ -245,12 +247,6 @@ Station * GarbageManagement::getStation(long id)
 	return NULL;
 }
 
-
-Graph<Location> GarbageManagement::getGraph()
-{
-	return this->graph;
-}
-
 void GarbageManagement::setGarage(long id)
 {
 	Location * location = this->getGenericLocation(id);
@@ -280,6 +276,7 @@ void GarbageManagement::fillContainer(long id)
 	Container * container = this->getContainer(id);
 	container->fillContainer();
 	this->viewer->setVertexColor(container->getId(),CYAN);
+	updateGraph(container);
 }
 
 void GarbageManagement::clearContainer(long id)
@@ -287,6 +284,18 @@ void GarbageManagement::clearContainer(long id)
 	Container * container = this->getContainer(id);
 	container->clearContainer();
 	this->viewer->setVertexColor(container->getId(),GRAY);
+	updateGraph(container);
+}
+
+void GarbageManagement::updateGraph(Location * location)
+{
+	for(unsigned int i = 0; i < this->graph.getVertexSet().size(); i++)
+	{
+		if(this->graph.getVertexSet()[i]->getInfo().getId() == location->getId())
+		{
+			this->graph.getVertexSet()[i]->setInfo(*location);
+		}
+	}
 }
 
 
@@ -305,11 +314,6 @@ void GarbageManagement::startTests()
 	Station * l6 = new Station("ola",pair<double,double>(100,500));
 	Station * l7 = new Station("ola",pair<double,double>(500,500));
 
-	l3->fillContainer();
-	l4->fillContainer();
-	l5->fillContainer();
-
-
 	this->addGarage(l0);
 	this->addGarage(l1);
 	this->addLocation(l2);
@@ -318,6 +322,10 @@ void GarbageManagement::startTests()
 	this->addContainer(l5);
 	this->addStation(l6);
 	this->addStation(l7);
+
+	fillContainer(l3->getId());
+	fillContainer(l4->getId());
+	fillContainer(l5->getId());
 
 	for(unsigned int i = 0; i<this->garages.size(); i++)
 	{
@@ -353,14 +361,18 @@ void GarbageManagement::startTests()
  * to send out a vehicle to pick up garbage from 1 container and immediately deliver it to a station,
  * unless it's the only left)
  */
-void GarbageManagement::collectGarbage()
+vector<vector<Location>> GarbageManagement::collectGarbage(int algorithm)
 {
+	this->algorithm = algorithm;
+	clock_t begin = clock();
 	vector<vector<Location>> paths;
+
 	resetVehicles();
 	startTests();
 
 	//run floydWarshallShortestPath to map the distances of the vertexes
-	this->graph.floydWarshallShortestPath();
+	if(algorithm == 1)
+		this->graph.floydWarshallShortestPath();
 
 	//get containers that need to be picked up
 	vector<Vertex<Location> *> allVertexes = this->graph.getVertexSet();
@@ -377,7 +389,7 @@ void GarbageManagement::collectGarbage()
 	//starting loop
 	while(filledContainers.size() != 0)
 	{
-		cout << "NOVO VEICULO" << endl;
+		// NEW VEHICLE
 		vector<Location> currentPath;
 		//identify which garages have vehicles that collect the same garbage type as the filledContainers
 		vector<Garage> possibleGarages = getPossibleGarages(filledContainers);
@@ -391,7 +403,7 @@ void GarbageManagement::collectGarbage()
 			startEndVertexes.second = Location(-1,pair<double,double>(0,0));
 		}
 		else
-		startEndVertexes = calculateBestVertexes(filledContainers);
+			startEndVertexes = calculateBestVertexes(filledContainers);
 
 		//identify the best starting vertex
 		Garage bestGarage = Garage();
@@ -404,7 +416,7 @@ void GarbageManagement::collectGarbage()
 		//move to first best vertex
 		currentVehicle->moveTo(startEndVertexes.first.getCoordinates().first, startEndVertexes.first.getCoordinates().second);
 		currentPath.push_back(startEndVertexes.first);
-		cout << "OIX" << endl;
+
 		if(this->loadVehicle(currentVehicle, startEndVertexes.first))
 		{
 			for(unsigned int i = 0; i < filledContainers.size(); i++)
@@ -422,7 +434,6 @@ void GarbageManagement::collectGarbage()
 			Location nextLocation = this->getNextLocation(currentVehicle, filledContainers);
 			if(nextLocation.getId() == -1)
 			{
-				cout << "OI" << endl;
 				//vehicle is almost full OR we have no more containers to go to
 				this->moveToStation(currentVehicle, currentPath);
 				break;
@@ -452,7 +463,13 @@ void GarbageManagement::collectGarbage()
 			cout << paths[i][j].getId() << endl;
 		}
 	}
-	cout << "WE DID IT!" << endl;
+
+	clock_t end = clock();
+	double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
+
+	cout << "Elapsed time:" << elapsed_secs << endl;
+
+	return paths;
 }
 
 
@@ -469,12 +486,22 @@ void GarbageManagement::resetVehicles()
 
 void GarbageManagement::moveToStation(Vehicle * vehicle, vector<Location>&currentPath)
 {
+	if(algorithm == 2)
+		this->graph.dijkstraShortestPath((*this->getContainer(vehicle->getCurrentCoordinates())));
+
 	Station * bestStation;
 	Location vehicleLocation = (*this->getContainer(vehicle->getCurrentCoordinates()));
 	double score = INT_MAX;
 	for(unsigned int i = 0; i< this->stations.size(); i++)
 	{
-		double currentScore = this->calculatePathScore(this->graph.getfloydWarshallPath((vehicleLocation),(*this->stations[i])));
+		double currentScore;
+		if(algorithm == 1)
+			 currentScore = this->calculatePathScore(this->graph.getfloydWarshallPath((vehicleLocation),(*this->stations[i])));
+		else
+		{
+			currentScore = this->calculatePathScore(this->graph.getPath((vehicleLocation),(*this->stations[i])));
+		}
+
 		if(currentScore < score)
 		{
 			bestStation = this->stations[i];
@@ -495,7 +522,7 @@ Vehicle * GarbageManagement::getBestVehicle(Garage garage)
 	{
 		if(!garage.getVehicles()[i]->isFull())
 		{
-			double currentScore = garage.getVehicles()[i]->getCapacity();
+			double currentScore = garage.getVehicles()[i]->getCapacity() * garage.getVehicles()[i]->getType().size();
 			if(currentScore > score)
 			{
 				bestVehicle = garage.getVehicles()[i];
@@ -523,8 +550,15 @@ Location GarbageManagement::getNextLocation(Vehicle * vehicle, vector<Location> 
 	{
 		if((vehicle->getCapacity() - vehicle->getCurrentCapacity()) > currentLocation->getCapacity())
 		{
+			double currentScore;
 			//score based on weight
-			double currentScore = this->calculatePathScore(this->graph.getfloydWarshallPath((*currentLocation),locations[i]));
+			if(algorithm == 1)
+				currentScore = this->calculatePathScore(this->graph.getfloydWarshallPath((*currentLocation),locations[i]));
+			else
+			{
+				this->graph.dijkstraShortestPath((*currentLocation));
+				currentScore = this->calculatePathScore(this->graph.getPath((*currentLocation),locations[i]));
+			}
 
 			if(currentScore < minScore)
 			{
@@ -560,19 +594,40 @@ void GarbageManagement::calculateBestStart(pair<Location,Location>&startEndVerte
 	//paths GARAGES -> VERTEX
 	for(unsigned int i = 0; i < possibleGarages.size(); i++)
 	{
+		if(algorithm == 2)
+			this->graph.dijkstraShortestPath(possibleGarages[i]);
+
 		// if the current garage has a vehicle that has the possibility of collecting the garbage on first vertex, iterate through it
 		if(garagesHasPossibleVehicle(possibleGarages[i],startEndVertexes.first))
 		{
-			vector<Location> pathGarageVertex = this->graph.getfloydWarshallPath(possibleGarages[i],startEndVertexes.first);
+			vector<Location> pathGarageVertex;
+			if(algorithm == 1)
+			{
+				pathGarageVertex = this->graph.getfloydWarshallPath(possibleGarages[i],startEndVertexes.first);
+			}
+			else
+			{
+				pathGarageVertex = this->graph.getPath(possibleGarages[i],startEndVertexes.first);
+			}
 			garageVertexesScores1.push_back(calculatePathScore(pathGarageVertex));
+
 		}
 		else	//add placeholder to the vector
 		{
 			garageVertexesScores1.push_back(INT_MAX);
 		}
+
 		if((startEndVertexes.second.getId() != -1) && garagesHasPossibleVehicle(possibleGarages[i],startEndVertexes.second))
 		{
-			vector<Location> pathGarageVertex = this->graph.getfloydWarshallPath(possibleGarages[i],startEndVertexes.second);
+			vector<Location> pathGarageVertex;
+			if(algorithm == 1)
+			{
+				pathGarageVertex = this->graph.getfloydWarshallPath(possibleGarages[i],startEndVertexes.second);
+			}
+			else
+			{
+				pathGarageVertex = this->graph.getPath(possibleGarages[i],startEndVertexes.second);
+			}
 			garageVertexesScores2.push_back(calculatePathScore(pathGarageVertex));
 		}
 		else
@@ -688,64 +743,25 @@ pair<Location,Location>GarbageManagement::calculateBestVertexes(vector<Location>
  */
 double GarbageManagement::calculateScoreVertexLocations (Location currentLocation, vector<Location> locations)
 {
+	if(algorithm == 2)
+	this->graph.dijkstraShortestPath(currentLocation);
+
 	double score = 0;
 	for(unsigned int i = 0; i < locations.size(); i++)
 	{
-		vector<Location> path = this->graph.getfloydWarshallPath(currentLocation, locations[i]);
-		score += calculatePathScore(path);
+		vector<Location> path;
+		if(algorithm == 1)
+		{
+			path = this->graph.getfloydWarshallPath(currentLocation, locations[i]);
+			score += calculatePathScore(path);
+		}
+		else
+		{
+			path = this->graph.getPath(currentLocation,locations[i]);
+			score += calculatePathScore(path);
+		}
 	}
 	return score;
-}
-
-
-void GarbageManagement::shortestPathSingleContainer(int id)
-{
-
-	// get container
-	Container * container = this->getContainer(id);
-
-	// get garages that have valid vehicles
-	vector<Garage *> validGarages = this->getValidGarages(container);
-
-	vector<vector<Location>> paths;
-	//calculate the closest garage to the container
-	for(unsigned int i = 0; i <validGarages.size(); i++)
-	{
-		this->graph.dijkstraShortestPath((*validGarages[i]));
-		paths.push_back(this->graph.getPath((*validGarages[i]),(*container)));
-	}
-
-	//calculate the closest garage to the container
-	vector<Location> bestGarageContainerPath = calculateBestPath(paths);
-
-	//calculate the closest station to the container
-	vector<Location> bestContainerStationPath = calculateClosestStation((*container));
-
-	cout << "GARAGE TO CONTAINER" << endl;
-	for(unsigned int  i = 0; i< bestGarageContainerPath.size(); i++)
-	{
-		cout << bestGarageContainerPath[i].getId() << endl;
-	}
-
-	cout << "CONTAINER TO STATION" << endl;
-	for(unsigned int i = 0; i < bestContainerStationPath.size(); i++)
-	{
-		cout << bestContainerStationPath[i].getId() << endl;
-	}
-	cout << "END" << endl;
-	exit(0);
-}
-
-vector<Location> GarbageManagement::calculateClosestStation(Location location)
-{
-	this->graph.dijkstraShortestPath(location);
-	vector<vector<Location>> paths;
-	for(unsigned int i = 0; i < this->stations.size(); i++)
-	{
-		paths.push_back(this->graph.getPath(location,(*this->stations[i])));
-	}
-
-	return calculateBestPath(paths);
 }
 
 vector<Location> GarbageManagement::calculateBestPath(vector<vector<Location>> paths)
@@ -806,8 +822,76 @@ vector<Garage *> GarbageManagement::getValidGarages(Container * container)
 				break;
 		}
 	}
-
 	return validGarages;
 }
 
 
+void GarbageManagement::simulatePath(vector<vector<Location>> paths)
+{
+	if(algorithm == 1)
+		this->graph.floydWarshallShortestPath();
+
+	vector<vector<Location>> fullPath;
+	for(unsigned int i = 0; i < paths.size(); i++)
+	{
+		vector<Location> path;
+		for(unsigned int j = 0; j < paths[i].size()-1; j++)
+		{
+			vector<Location> tempPath;
+			if(algorithm == 1)
+			{
+				tempPath = this->graph.getfloydWarshallPath((paths[i][j]),(paths[i][j+1]));
+			}
+			else
+			{
+				this->graph.dijkstraShortestPath(paths[i][j]);
+				tempPath = this->graph.getPath((paths[i][j]),(paths[i][j+1]));
+			}
+			if(j == 0)
+			{
+				path = tempPath;
+			}
+			else
+			{
+				for(unsigned int k = 1; k <tempPath.size(); k++)
+				{
+					path.push_back(tempPath[k]);
+				}
+			}
+		}
+		fullPath.push_back(path);
+	}
+
+	for(unsigned int i = 0; i < fullPath.size(); i++)
+	{
+		for(unsigned int j = 0; j < fullPath[i].size(); j++)
+		{
+			cout << fullPath[i][j].getId() << endl;
+			this->viewer->setVertexColor(fullPath[i][j].getId(),ORANGE);
+			this->viewer->rearrange();
+			clock_t begin = clock();
+			clock_t end = clock();
+			double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
+
+			while(elapsed_secs < 2)
+			{
+				clock_t end = clock();
+				elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
+			}
+
+			if(j == 0)
+			{
+				this->viewer->setVertexColor(fullPath[i][j].getId(),YELLOW);
+			}
+			else if(j == fullPath[i].size()-1)
+			{
+				this->viewer->setVertexColor(fullPath[i][j].getId(),GREEN);
+			}
+			else
+			{
+				this->viewer->setVertexColor(fullPath[i][j].getId(),BLUE);
+			}
+			this->viewer->rearrange();
+		}
+	}
+}
