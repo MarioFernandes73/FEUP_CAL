@@ -14,6 +14,41 @@
 
 using namespace std;
 
+bool verifyInt(string temp)
+{
+	if(temp=="")
+		return false;
+
+	for(unsigned int i=0; i<temp.size(); i++)
+	{
+		if(!isdigit(temp[i]))
+			return false;
+	}
+
+	return true;
+}
+
+bool verifyDouble(string temp)
+{
+	bool dot = false;
+	if(temp=="")
+		return false;
+
+	for(unsigned int i=0; i<temp.size(); i++)
+	{
+		if(!isdigit(temp[i]))
+			return false;
+		else if(temp[i] == '.')
+			if(!dot)
+				dot = true;
+			else
+				return false;
+		else
+			return false;
+	}
+	return true;
+}
+
 short int readUnsignedShortInt(unsigned short int first, unsigned short int last)
 {
 	unsigned short int input;
@@ -22,26 +57,16 @@ short int readUnsignedShortInt(unsigned short int first, unsigned short int last
 
 	getline(cin, temp);
 
-	if(temp=="")
-	{
-		return 0;
-	}
-
-	for(unsigned int i=0; i<temp.size(); i++)
-	{
-		if(!isdigit(temp[i]))
-		{
-			throw NoValidEntry();
-		}
-	}
+	if(!verifyInt(temp))
+		throw NoValidEntryException();
 
 	ss << temp;
 	ss >> input;
 
 	if(first <= input && input <= last)
-	return input;
+		return input;
 
-	throw NoValidEntry();
+	throw OutOfBondsException();
 }
 
 int getInt()
@@ -50,6 +75,8 @@ int getInt()
 	string temp;
 	int id;
 	getline(cin,temp);
+	if(!verifyInt(temp))
+		throw NoValidEntryException();
 	ss << temp;
 	ss >> id;
 	return id;
@@ -61,6 +88,21 @@ double getDouble()
 	string temp;
 	double id;
 	getline(cin,temp);
+	if(!verifyDouble(temp))
+		throw NoValidEntryException();
+	ss << temp;
+	ss >> id;
+	return id;
+}
+
+long getLong()
+{
+	stringstream ss;
+	string temp;
+	long id;
+	getline(cin,temp);
+	if(!verifyInt(temp))
+		throw NoValidEntryException();
 	ss << temp;
 	ss >> id;
 	return id;

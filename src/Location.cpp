@@ -7,11 +7,11 @@
 
 #include "Location.h"
 
-int Location::idCounter = 0;
+long Location::idCounter = 0;
 using namespace std;
 
 Location::Location():type(locationType::location){
-
+	this->full = false;
 }
 
 Location::Location(string name, pair<double,double> coordinates):type(locationType::location) {
@@ -23,7 +23,7 @@ Location::Location(string name, pair<double,double> coordinates):type(locationTy
 }
 
 
-Location::Location(int id, pair<double,double> coordinates)
+Location::Location(int id, pair<double,double> coordinates):type(locationType::location)
 {
 	this->id = id;
 	this->coordinates = coordinates;
@@ -70,6 +70,11 @@ void Location::setType(locationType type)
 void Location::setID(int id)
 {
 	this->id = id;
+}
+
+void Location::setName(string name)
+{
+	this->name = name;
 }
 
 Location::~Location() {

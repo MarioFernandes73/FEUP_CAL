@@ -18,6 +18,7 @@ private:
 	double capacity;
 public:
 	Container(std::string name, std::pair<double,double> coordinates, garbageType type, double capacity);
+	Container(long id, std::pair<double,double> coordinates, garbageType type, double quantity);
 	garbageType getType();
 	double getCapacity();
 	virtual ~Container();

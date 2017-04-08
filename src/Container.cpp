@@ -15,6 +15,14 @@ this->capacity = quantity;
 this->setType(locationType::container);
 }
 
+Container::Container(long id, pair<double,double> coordinates, garbageType type, double quantity):Location(id, coordinates)
+{
+	this->setName("container");
+	this->type = type;
+	this->capacity = quantity;
+	this->setType(locationType::container);
+}
+
 garbageType Container::getType()
 {
 return this->type;

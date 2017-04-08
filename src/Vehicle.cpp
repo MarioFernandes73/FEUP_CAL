@@ -69,6 +69,11 @@ pair<double,double> Vehicle::getCurrentCoordinates()
 	return this->currentCoordinates;
 }
 
+string Vehicle::getPlate()
+{
+	return this->plate;
+}
+
 Vehicle::~Vehicle() {
 	// TODO Auto-generated destructor stub
 }

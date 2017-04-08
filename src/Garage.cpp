@@ -14,6 +14,12 @@ Garage::Garage(string name, pair<double,double> coordinates):Location(name, coor
 	this->setType(locationType::garage);
 }
 
+Garage::Garage(long id, std::pair<double,double> coordinates):Location(id, coordinates)
+{
+	this->setName("garage");
+	this->setType(locationType::garage);
+}
+
 void Garage::addVehicle(Vehicle * vehicle)
 {
 	this->vehicles.push_back(vehicle);

@@ -11,6 +11,7 @@
 
 
 #include <vector>
+#include <map>
 
 #include "Vehicle.h"
 #include "graphviewer.h"
@@ -23,7 +24,7 @@
 
 class GarbageManagement {
 private:
-	static int edgeCounter;
+	static long edgeCounter;
 	Graph<Location> graph;
 	std::string name;
 	GraphViewer * viewer;
@@ -33,6 +34,7 @@ private:
 	std::vector <Garage *> garages;
 	std::vector <Container *> containers;
 	std::vector <Station *> stations;
+	std::map<std::pair<long,long>,long> edges;
 
 public:
 	GarbageManagement();
@@ -40,23 +42,31 @@ public:
 	void addStation(Station * station);
 	void addContainer(Container * container);
 	void addGarage(Garage * garage);
-	Location * getGenericLocation(int id);
-	Location * getLocation(int id);
-	Station * getStation(int id);
+	void addEdge(double weight, pair<long,long> vertexesCoord);
+	void addVehicle(int id, Vehicle * vehicle);
+
+	Location * getGenericLocation(long id);
+	Location * getLocation(long id);
+	Station * getStation(long id);
 	Container * getContainer(std::pair<double,double> coord);
-	Container * getContainer(int id);
-	Garage * getGarage(int id);
+	Container * getContainer(long id);
+	Garage * getGarage(long id);
 	vector<Garage *> getValidGarages(Container * container);
 	Graph<Location> getGraph();
 
+	void removeLocation(long id);
+	void removeStation(long id);
+	void removeContainer(long id);
+	void removeGarage(long id);
+	void removeEdge(pair<long,long> vertexesCoord);
+	void removeVehicle(string plate);
 
-	void removeStation(Station * station);
-	void removeContainer(Container * container);
-	void removeGarage(Garage * garage);
+	void setGarage(long id);
+	void setContainer(long id, garbageType type, double quantity);
+	void setStation(long id);
 
-	void addEdge(double weight, pair<int,int> vertexesCoord);
-
-	void addVehicle(int id, Vehicle * vehicle);
+	void fillContainer(long id);
+	void clearContainer(long id);
 
 	void shortestPathSingleContainer(int id);
 	vector<Location> calculateBestPath(vector<vector<Location>> paths);

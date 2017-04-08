@@ -19,13 +19,16 @@
  * Vertexes *
  ************/
 void createLocation(string&name, pair<double,double>&coordinates);
+Location * createNewLocation();
 Garage * createGarage();
 Container * createContainer();
 Station * createStation();
 
-int getSourceLocationID();
-int getDestLocationID();
-int getStationID();
+long getLocationID();
+long getStationID();
+long getSourceLocationID();
+long getDestLocationID();
+std::string getPlate();
 
 garbageType getGarbageType();
 double getQuantity();
@@ -33,7 +36,7 @@ double getQuantity();
 /*********
  * Edges *
  *********/
-pair<int,int> createEdge();
+pair<long,long> createEdge();
 double createEdgeWeight();
 
 

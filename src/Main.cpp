@@ -8,6 +8,7 @@
 
 #include "GarbageManagement.h"
 #include "Menu.h"
+#include "ParserOsm.h"
 
 int main() {
 
@@ -15,6 +16,8 @@ int main() {
 	GarbageManagement management = GarbageManagement();
 
 	// load files
+	//vertexParser(management);
+	//edgesParser(management);
 
 	// Initialisation
 

@@ -37,8 +37,8 @@ void createLocation(string&name, pair<double,double>&coordinates )
 
 	getline(cin,name);
 
-	if(isdigit(name[0])){
-		throw NoValidEntry();
+	if(name == "" || isdigit(name[0])){
+		throw NoValidEntryException();
 	}
 
 	cout << "Enter the x coordinate of the location: ";
@@ -46,7 +46,7 @@ void createLocation(string&name, pair<double,double>&coordinates )
 	getline(cin,temp);
 
 	if(!isValidCoordinate(temp)){
-		throw NoValidEntry();
+		throw NoValidEntryException();
 	}
 
 	ss << temp;
@@ -59,7 +59,7 @@ void createLocation(string&name, pair<double,double>&coordinates )
 	getline(cin,temp);
 
 	if(!isValidCoordinate(temp)){
-		throw NoValidEntry();
+		throw NoValidEntryException();
 	}
 
 	ss << temp;
@@ -69,6 +69,15 @@ void createLocation(string&name, pair<double,double>&coordinates )
 
 	coordinates.first = xCoord;
 	coordinates.second = yCoord;
+}
+
+Location * createNewLocation()
+{
+	string name;
+	pair<double,double> coordinates;
+
+	createLocation(name,coordinates);
+	return new Location(name,coordinates);
 }
 
 Garage * createGarage()
@@ -105,7 +114,7 @@ garbageType getGarbageType()
 	int typeId;
 	cout << "Enter the type of garbage it will be responsible for (glass - 1, plastic - 2, paper - 3, generic - 4): ";
 	typeId = readUnsignedShortInt(1,4);
-	/*switch(typeId)
+	switch(typeId)
 	{
 	case 1: type = garbageType::glass;
 	break;
@@ -114,7 +123,7 @@ garbageType getGarbageType()
 	case 3: type = garbageType::paper;
 	break;
 	case 4: type = garbageType::generic;
-	}*/
+	}
 	return type;
 }
 
@@ -127,33 +136,25 @@ Station * createStation()
 	return new Station(name,coordinates);
 }
 
-int getStationID()
-{
-	cout << "Enter the id of the station: ";
-	return getInt();
-}
-
-int getSourceLocationID()
+long getSourceLocationID()
 {
 	cout << "Enter the id of the source vertex: ";
 	return getInt();
 }
 
-int getDestLocationID()
+long getDestLocationID()
 {
 	cout << "Enter the id of the destination vertex: ";
 	return getInt();
 }
 
-pair<int,int> createEdge()
+pair<long,long> createEdge()
 {
-	pair<int,int> vertexesIDs;
+	pair<long,long> vertexesIDs;
 	vertexesIDs.first = getSourceLocationID();
 	vertexesIDs.second = getDestLocationID();
 	return vertexesIDs;
 }
-
-
 
 double createEdgeWeight()
 {
@@ -171,4 +172,24 @@ Vehicle * createVehicle()
 	type = getGarbageType();
 	quantity = getQuantity();
 	return new Vehicle(plate, type, quantity);
+}
+
+long getLocationID()
+{
+	cout << "Enter the id of a location: ";
+	return getLong();
+}
+
+long getStationID()
+{
+	cout << "Enter the id of a station: ";
+	return getLong();
+}
+
+string getPlate()
+{
+	string temp;
+	cout << "Enter the plate of the vehicle: ";
+	getline(cin,temp);
+	return temp;
 }

@@ -14,11 +14,9 @@
 #include <fstream>
 
 
-void getVertexParser(GarbageManagement &theGarbageManagement);
+void vertexParser(GarbageManagement &theGarbageManagement);
 
-void getEdgesParser(GarbageManagement &theGarbageManagement);
-
-void getEdgeNamesParser(GarbageManagement &theGarbageManagement);
+void edgesParser(GarbageManagement &theGarbageManagement);
 
 
 

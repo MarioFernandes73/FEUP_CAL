@@ -3,9 +3,19 @@
 
 #include <iostream>
 
-class NoValidEntry{
+class NoValidEntryException{
 public:
-	NoValidEntry(){};
+	NoValidEntryException(){};
+};
+
+class OutOfBondsException{
+public:
+	OutOfBondsException(){};
+};
+
+class VehicleNotFoundException{
+public:
+	VehicleNotFoundException(){};
 };
 
 #endif

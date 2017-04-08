@@ -16,8 +16,8 @@
 
 class Location {
 private:
-	static int idCounter;
-	int id;
+	static long idCounter;
+	long id;
 	std::string name;
 	std::pair<double,double> coordinates;
 	locationType type;
@@ -33,6 +33,7 @@ public:
 
 	locationType getLocationType();
 	void setType(locationType type);
+	void setName(std::string name);
 
 	void fillContainer();
 	void clearContainer();

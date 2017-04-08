@@ -31,6 +31,7 @@ public:
 	void moveTo(double xCoord, double yCoord);
 	std::pair<double,double> getCurrentCoordinates();
 	double getCapacity();
+	std::string getPlate();
 	virtual ~Vehicle();
 };
 

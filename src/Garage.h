@@ -18,6 +18,7 @@ private:
 	std::vector <Vehicle * > vehicles;
 public:
 	Garage(){}
+	Garage(long id, std::pair<double,double> coordinates);
 	Garage(std::string name, std::pair<double,double> coordinates);
 	void addVehicle(Vehicle * vehicle);
 	std::vector <Vehicle *> getVehicles();
