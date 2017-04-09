@@ -13,12 +13,10 @@
 #include <sstream>
 #include <fstream>
 
-
 void vertexParser(GarbageManagement &garbageManagement);
 void edgesParser(GarbageManagement &garbageManagement);
 
 void saveVertexes(GarbageManagement &garbageManagement);
 void saveEdges(GarbageManagement &garbageManagement);
-
 
 #endif /* SRC_PARSEROSM_H_ */

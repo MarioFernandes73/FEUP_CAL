@@ -12,23 +12,21 @@
 #include "Auxiliary.h"
 #include <fstream>
 
-
-
 class Location {
 private:
 	static long idCounter;
 	long id;
 	std::string name;
-	std::pair<double,double> coordinates;
+	std::pair<double, double> coordinates;
 	locationType type;
 	bool full;
 public:
 	Location();
 	Location(int id);
-	Location(std::string name, std::pair<double,double> coordinates);
-	Location(int id, std::pair<double,double> coordinates);
+	Location(std::string name, std::pair<double, double> coordinates);
+	Location(int id, std::pair<double, double> coordinates);
 	std::string getName();
-	std::pair<double,double> getCoordinates();
+	std::pair<double, double> getCoordinates();
 	int getId() const;
 
 	locationType getLocationType();
@@ -40,8 +38,8 @@ public:
 
 	virtual bool isFull();
 
-	bool operator == (const Location &location) const;
-	bool operator != (const Location &location) const;
+	bool operator ==(const Location &location) const;
+	bool operator !=(const Location &location) const;
 
 	void setID(int id);
 	virtual ~Location();

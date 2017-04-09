@@ -18,20 +18,23 @@ private:
 	std::vector<garbageType> type;
 	bool full;
 	double currentCapacity;
-	std::pair<double,double> currentCoordinates;
+	std::pair<double, double> currentCoordinates;
 	double capacity;
 public:
 	Vehicle(std::string plate, garbageType type, double capacity);
+
+	std::string getPlate();
 	std::vector<garbageType> getType();
+	bool isFull();
+	double getCurrentCapacity();
+	std::pair<double, double> getCurrentCoordinates();
+	double getCapacity();
+
 	void clearVehicle();
 	void fillVehicle();
 	bool loadCurrentCapacity(double load);
-	double getCurrentCapacity();
-	bool isFull();
 	void moveTo(double xCoord, double yCoord);
-	std::pair<double,double> getCurrentCoordinates();
-	double getCapacity();
-	std::string getPlate();
+
 	virtual ~Vehicle();
 };
 

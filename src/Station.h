@@ -11,12 +11,13 @@
 #include "Location.h"
 #include <string>
 
-class Station : public Location{
+class Station: public Location {
 
 public:
-	Station(){}
-	Station(std::string name, std::pair<double,double> coordinates );
-	Station(long id, std::pair<double,double> coordinates);
+	Station() {
+	}
+	Station(std::string name, std::pair<double, double> coordinates);
+	Station(long id, std::pair<double, double> coordinates);
 	virtual ~Station();
 };
 

@@ -14,11 +14,10 @@
 #include "Garage.h"
 #include "Container.h"
 
-
 /************
  * Vertexes *
  ************/
-void createLocation(string&name, pair<double,double>&coordinates);
+void createLocation(string&name, pair<double, double>&coordinates);
 Location * createNewLocation();
 Garage * createGarage();
 Container * createContainer();
@@ -36,14 +35,13 @@ double getQuantity();
 /*********
  * Edges *
  *********/
-pair<long,long> createEdge();
+pair<long, long> createEdge();
 double createEdgeWeight();
 
 /************
  * Vehicles *
  ************/
 Vehicle * createVehicle();
-
 
 int getAlgorithm();
 

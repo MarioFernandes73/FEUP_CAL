@@ -7,22 +7,19 @@
 
 #include "ParserOsm.h"
 
-
 using namespace std;
 
-void vertexParser(GarbageManagement & garbageManagement)
-{
+void vertexParser(GarbageManagement & garbageManagement) {
 	ifstream VertexFile("Vertex.txt");
 
-	while (!VertexFile.eof())
-	{
+	while (!VertexFile.eof()) {
 		string line, temp;
 		stringstream ss;
 		long id;
-		pair<double,double> coordinates;
+		pair<double, double> coordinates;
 		getline(VertexFile, line);
 
-		if(line == "")
+		if (line == "")
 			break;
 
 		temp = line.substr(0, line.find(";"));
@@ -38,7 +35,6 @@ void vertexParser(GarbageManagement & garbageManagement)
 		ss.clear();
 		ss.str("");
 
-
 		line = line.substr(line.find(";") + 1);
 		temp = line.substr(0, line.find(";"));
 		ss << temp;
@@ -46,25 +42,22 @@ void vertexParser(GarbageManagement & garbageManagement)
 		ss.clear();
 		ss.str("");
 
-		garbageManagement.addLocation(new Location (id, coordinates));
+		garbageManagement.addLocation(new Location(id, coordinates));
 	}
 	VertexFile.close();
 }
 
-
-void edgesParser(GarbageManagement &garbageManagement)
-{
+void edgesParser(GarbageManagement &garbageManagement) {
 	ifstream EdgeFile("Edges.txt");
 
-	while (!EdgeFile.eof())
-	{
+	while (!EdgeFile.eof()) {
 		string line, temp;
 		stringstream ss;
 		long id;
-		pair<long,long> vertexIds;
+		pair<long, long> vertexIds;
 		getline(EdgeFile, line);
 
-		if(line == "")
+		if (line == "")
 			break;
 
 		temp = line.substr(0, line.find(";"));
@@ -94,44 +87,48 @@ void edgesParser(GarbageManagement &garbageManagement)
 
 }
 
-
-void saveVertexes(GarbageManagement &garbageManagement)
-{
+void saveVertexes(GarbageManagement &garbageManagement) {
 	ofstream VertexFile("Vertex.txt");
 
-	for(unsigned int i = 0; i <garbageManagement.getGenericLocations().size(); i++)
-	{
+	for (unsigned int i = 0; i < garbageManagement.getGenericLocations().size();
+			i++) {
 		Location * location = garbageManagement.getGenericLocations()[i];
-		VertexFile << location->getId() << ";" << location->getCoordinates().first << ";" << location->getCoordinates().second << endl;
+		VertexFile << location->getId() << ";"
+				<< location->getCoordinates().first << ";"
+				<< location->getCoordinates().second << endl;
 	}
 
-	for(unsigned int i = 0; i <garbageManagement.getGarages().size(); i++)
-	{
+	for (unsigned int i = 0; i < garbageManagement.getGarages().size(); i++) {
 		Location * location = garbageManagement.getGarages()[i];
-		VertexFile << location->getId() << ";" << location->getCoordinates().first << ";" << location->getCoordinates().second << endl;
+		VertexFile << location->getId() << ";"
+				<< location->getCoordinates().first << ";"
+				<< location->getCoordinates().second << endl;
 	}
 
-	for(unsigned int i = 0; i <garbageManagement.getContainers().size(); i++)
-	{
+	for (unsigned int i = 0; i < garbageManagement.getContainers().size();
+			i++) {
 		Location * location = garbageManagement.getContainers()[i];
-		VertexFile << location->getId() << ";" << location->getCoordinates().first << ";" << location->getCoordinates().second << endl;
+		VertexFile << location->getId() << ";"
+				<< location->getCoordinates().first << ";"
+				<< location->getCoordinates().second << endl;
 	}
 
-	for(unsigned int i = 0; i <garbageManagement.getStations().size(); i++)
-	{
+	for (unsigned int i = 0; i < garbageManagement.getStations().size(); i++) {
 		Location * location = garbageManagement.getStations()[i];
-		VertexFile << location->getId() << ";" << location->getCoordinates().first << ";" << location->getCoordinates().second << endl;
+		VertexFile << location->getId() << ";"
+				<< location->getCoordinates().first << ";"
+				<< location->getCoordinates().second << endl;
 	}
 
 }
 
-
-void saveEdges(GarbageManagement &garbageManagement)
-{
+void saveEdges(GarbageManagement &garbageManagement) {
 	ofstream EdgeFile("Edges.txt");
 
-	for (map<pair<long,long>,long>::iterator it=garbageManagement.getEdges().begin(); it!=garbageManagement.getEdges().end(); ++it)
-	{
-		EdgeFile << it->second << ";" << it->first.first << ";" << it->first.second << endl;
+	for (map<pair<long, long>, long>::iterator it =
+			garbageManagement.getEdges().begin();
+			it != garbageManagement.getEdges().end(); ++it) {
+		EdgeFile << it->second << ";" << it->first.first << ";"
+				<< it->first.second << endl;
 	}
 }

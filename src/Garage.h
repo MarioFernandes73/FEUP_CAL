@@ -13,15 +13,16 @@
 #include "Location.h"
 #include "Vehicle.h"
 
-class Garage : public Location {
+class Garage: public Location {
 private:
-	std::vector <Vehicle * > vehicles;
+	std::vector<Vehicle *> vehicles;
 public:
-	Garage(){}
-	Garage(long id, std::pair<double,double> coordinates);
-	Garage(std::string name, std::pair<double,double> coordinates);
+	Garage() {
+	}
+	Garage(long id, std::pair<double, double> coordinates);
+	Garage(std::string name, std::pair<double, double> coordinates);
 	void addVehicle(Vehicle * vehicle);
-	std::vector <Vehicle *> getVehicles();
+	std::vector<Vehicle *> getVehicles();
 	virtual ~Garage();
 };
 

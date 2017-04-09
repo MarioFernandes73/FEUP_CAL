@@ -12,14 +12,12 @@
 
 int main() {
 
-	// variables declaration
+	// Initialization
 	GarbageManagement management = GarbageManagement();
 
 	// load files
 	//vertexParser(management);
 	//edgesParser(management);
-
-	// Initialisation
 
 	// call interface
 	initialOptions(management);

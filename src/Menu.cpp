@@ -5,7 +5,6 @@
  *      Author: Mário
  */
 
-
 #include "Menu.h"
 #include "Auxiliary.h"
 #include "MyExceptions.h"
@@ -14,8 +13,7 @@
 
 using namespace std;
 
-short int initialMenu()
-{
+short int initialMenu() {
 	cout << TAB_BIG << "Initial Menu";
 	cout << endl << endl;
 	cout << TAB << "Choose your option";
@@ -30,11 +28,10 @@ short int initialMenu()
 	cout << endl;
 	cout << "Please write your option here: ";
 
-	return readUnsignedShortInt(0,6);
+	return readUnsignedShortInt(0, 6);
 }
 
-short int vertexMenu()
-{
+short int vertexMenu() {
 	cout << TAB_BIG << "Vertex Menu";
 	cout << endl << endl;
 	cout << TAB << "Choose your option";
@@ -51,11 +48,10 @@ short int vertexMenu()
 	cout << endl;
 	cout << "Please write your option here: ";
 
-	return readUnsignedShortInt(0,8);
+	return readUnsignedShortInt(0, 8);
 }
 
-short int edgeMenu()
-{
+short int edgeMenu() {
 	cout << TAB_BIG << "Edge Menu";
 	cout << endl << endl;
 	cout << TAB << "Choose your option";
@@ -65,11 +61,10 @@ short int edgeMenu()
 	cout << endl;
 	cout << "Please write your option here: ";
 
-	return readUnsignedShortInt(0,2);
+	return readUnsignedShortInt(0, 2);
 }
 
-short int vehicleMenu()
-{
+short int vehicleMenu() {
 	cout << TAB_BIG << "Vehicle Menu";
 	cout << endl << endl;
 	cout << TAB << "Choose your option";
@@ -81,11 +76,10 @@ short int vehicleMenu()
 	cout << endl;
 	cout << "Please write your option here: ";
 
-	return readUnsignedShortInt(0,4);
+	return readUnsignedShortInt(0, 4);
 }
 
-short int settingsMenu()
-{
+short int settingsMenu() {
 	cout << TAB_BIG << "Settings Menu";
 	cout << endl << endl;
 	cout << TAB << "Choose your option";
@@ -100,139 +94,143 @@ short int settingsMenu()
 	cout << endl;
 	cout << "Please write your option here: ";
 
-	return readUnsignedShortInt(0,7);
+	return readUnsignedShortInt(0, 7);
 }
 
-void initialOptions(GarbageManagement & management)
-{
+void initialOptions(GarbageManagement & management) {
 	unsigned int short option = 1;
-	while(option > 0)
-	try{
-		switch (option = initialMenu())
-		{
-		case 1: vertexOptions(management);
-		break;
-		case 2: edgeOptions(management);
-		break;
-		case 3: vehicleOptions(management);
-		break;
-		case 4: settingsOptions(management);
-		break;
-		case 5: management.simulatePath(management.collectGarbage(getAlgorithm()));
-		break;
-		case 6: management.evaluateConnectivity();
+	while (option > 0)
+		try {
+			switch (option = initialMenu()) {
+			case 1:
+				vertexOptions(management);
+				break;
+			case 2:
+				edgeOptions(management);
+				break;
+			case 3:
+				vehicleOptions(management);
+				break;
+			case 4:
+				settingsOptions(management);
+				break;
+			case 5:
+				management.simulatePath(
+						management.collectGarbage(getAlgorithm()));
+				break;
+			case 6:
+				management.evaluateConnectivity();
+			}
+		} catch (OutOfBondsException& e) {
+			cout << endl << "Value is out of bonds!" << endl;
 		}
-	}
-	catch(OutOfBondsException& e){
-		cout << endl << "Value is out of bonds!" << endl;
-	}
 }
 
-void vertexOptions(GarbageManagement & management)
-{
+void vertexOptions(GarbageManagement & management) {
 	unsigned int short option = 1;
-	while(option > 0)
-	try{
-		switch (option = vertexMenu())
-		{
-		case 1: management.addLocation(createNewLocation());
-		break;
-		case 2: management.addGarage(createGarage());
-		break;
-		case 3: management.addContainer(createContainer());
-		break;
-		case 4: management.addStation(createStation());
-		break;
-		case 5: management.removeLocation(getLocationID());
-		break;
-		case 6: management.removeGarage(getLocationID());
-		break;
-		case 7: management.removeContainer(getLocationID());
-		break;
-		case 8: management.removeStation(getLocationID());
+	while (option > 0)
+		try {
+			switch (option = vertexMenu()) {
+			case 1:
+				management.addLocation(createNewLocation());
+				break;
+			case 2:
+				management.addGarage(createGarage());
+				break;
+			case 3:
+				management.addContainer(createContainer());
+				break;
+			case 4:
+				management.addStation(createStation());
+				break;
+			case 5:
+				management.removeLocation(getLocationID());
+				break;
+			case 6:
+				management.removeGarage(getLocationID());
+				break;
+			case 7:
+				management.removeContainer(getLocationID());
+				break;
+			case 8:
+				management.removeStation(getLocationID());
+			}
+		} catch (OutOfBondsException& e) {
+			cout << endl << "Value is out of bonds!" << endl;
+		} catch (NoValidEntryException& e) {
+			cout << endl << "You have entered a non valid entry." << endl;
 		}
-	}
-	catch(OutOfBondsException& e){
-		cout << endl << "Value is out of bonds!" << endl;
-	}
-	catch(NoValidEntryException& e){
-		cout << endl << "You have entered a non valid entry." << endl;
-	}
 }
 
-void edgeOptions(GarbageManagement & management)
-{
+void edgeOptions(GarbageManagement & management) {
 	unsigned int short option = 1;
-	while(option > 0)
-	try{
-		switch (option = edgeMenu())
-		{
-		case 1: management.addEdge(createEdgeWeight(),createEdge());
-		break;
-		case 2: management.removeEdge(createEdge());
+	while (option > 0)
+		try {
+			switch (option = edgeMenu()) {
+			case 1:
+				management.addEdge(createEdgeWeight(), createEdge());
+				break;
+			case 2:
+				management.removeEdge(createEdge());
+			}
+		} catch (OutOfBondsException& e) {
+			cout << endl << "Value is out of bonds!" << endl;
+		} catch (NoValidEntryException& e) {
+			cout << endl << "You have entered a non valid entry." << endl;
 		}
-	}
-	catch(OutOfBondsException& e){
-		cout << endl << "Value is out of bonds!" << endl;
-	}
-	catch(NoValidEntryException& e){
-		cout << endl << "You have entered a non valid entry." << endl;
-	}
 }
 
-void vehicleOptions(GarbageManagement & management)
-{
+void vehicleOptions(GarbageManagement & management) {
 	unsigned int short option = 1;
-	while(option > 0)
-	try{
-		switch (option = vehicleMenu())
-		{
-		case 1: management.addVehicle(getStationID(),createVehicle());
-		break;
-		case 2: management.addVehicle(getStationID(),createVehicle());
-		break;
-		case 3: management.addVehicle(getStationID(),createVehicle());
-		break;
-		case 4: management.removeVehicle(getPlate());
+	while (option > 0)
+		try {
+			switch (option = vehicleMenu()) {
+			case 1:
+				management.addVehicle(getStationID(), createVehicle());
+				break;
+			case 2:
+				management.addVehicle(getStationID(), createVehicle());
+				break;
+			case 3:
+				management.addVehicle(getStationID(), createVehicle());
+				break;
+			case 4:
+				management.removeVehicle(getPlate());
+			}
+		} catch (OutOfBondsException& e) {
+			cout << endl << "Value is out of bonds!" << endl;
+		} catch (NoValidEntryException& e) {
+			cout << endl << "You have entered a non valid entry." << endl;
+		} catch (VehicleNotFoundException& e) {
+			cout << endl << "Vehicle with that plate does not exist." << endl;
 		}
-	}
-	catch(OutOfBondsException& e){
-		cout << endl << "Value is out of bonds!" << endl;
-	}
-	catch(NoValidEntryException& e){
-		cout << endl << "You have entered a non valid entry." << endl;
-	}
-	catch(VehicleNotFoundException& e){
-		cout << endl << "Vehicle with that plate does not exist." << endl;
-	}
 }
 
-void settingsOptions(GarbageManagement & management)
-{
+void settingsOptions(GarbageManagement & management) {
 	unsigned int short option = 1;
-	while(option > 0)
-	try{
-		switch (option = edgeMenu())
-		{
-		case 1: management.setGarage(getLocationID());
-		break;
-		case 2: management.setContainer(getLocationID(), getGarbageType(), getQuantity());
-		break;
-		case 3: management.setStation(getLocationID());
-		break;
-		case 4: management.fillContainer(getLocationID());
-		break;
-		case 5: management.clearContainer(getLocationID());
-		break;
+	while (option > 0)
+		try {
+			switch (option = edgeMenu()) {
+			case 1:
+				management.setGarage(getLocationID());
+				break;
+			case 2:
+				management.setContainer(getLocationID(), getGarbageType(),
+						getQuantity());
+				break;
+			case 3:
+				management.setStation(getLocationID());
+				break;
+			case 4:
+				management.fillContainer(getLocationID());
+				break;
+			case 5:
+				management.clearContainer(getLocationID());
+				break;
+			}
+		} catch (OutOfBondsException& e) {
+			cout << endl << "Value is out of bonds!" << endl;
+		} catch (NoValidEntryException& e) {
+			cout << endl << "You have entered a non valid entry." << endl;
 		}
-	}
-	catch(OutOfBondsException& e){
-		cout << endl << "Value is out of bonds!" << endl;
-	}
-	catch(NoValidEntryException& e){
-		cout << endl << "You have entered a non valid entry." << endl;
-	}
 }
-
-
-	//management.shortestPathSingleContainer(4);

@@ -14,32 +14,28 @@
 
 using namespace std;
 
-bool verifyInt(string temp)
-{
-	if(temp=="")
+bool verifyInt(string temp) {
+	if (temp == "")
 		return false;
 
-	for(unsigned int i=0; i<temp.size(); i++)
-	{
-		if(!isdigit(temp[i]))
+	for (unsigned int i = 0; i < temp.size(); i++) {
+		if (!isdigit(temp[i]))
 			return false;
 	}
 
 	return true;
 }
 
-bool verifyDouble(string temp)
-{
+bool verifyDouble(string temp) {
 	bool dot = false;
-	if(temp=="")
+	if (temp == "")
 		return false;
 
-	for(unsigned int i=0; i<temp.size(); i++)
-	{
-		if(!isdigit(temp[i]))
+	for (unsigned int i = 0; i < temp.size(); i++) {
+		if (!isdigit(temp[i]))
 			return false;
-		else if(temp[i] == '.')
-			if(!dot)
+		else if (temp[i] == '.')
+			if (!dot)
 				dot = true;
 			else
 				return false;
@@ -49,59 +45,56 @@ bool verifyDouble(string temp)
 	return true;
 }
 
-short int readUnsignedShortInt(unsigned short int first, unsigned short int last)
-{
+short int readUnsignedShortInt(unsigned short int first,
+		unsigned short int last) {
 	unsigned short int input;
 	string temp;
 	stringstream ss;
 
 	getline(cin, temp);
 
-	if(!verifyInt(temp))
+	if (!verifyInt(temp))
 		throw NoValidEntryException();
 
 	ss << temp;
 	ss >> input;
 
-	if(first <= input && input <= last)
+	if (first <= input && input <= last)
 		return input;
 
 	throw OutOfBondsException();
 }
 
-int getInt()
-{
+int getInt() {
 	stringstream ss;
 	string temp;
 	int id;
-	getline(cin,temp);
-	if(!verifyInt(temp))
+	getline(cin, temp);
+	if (!verifyInt(temp))
 		throw NoValidEntryException();
 	ss << temp;
 	ss >> id;
 	return id;
 }
 
-double getDouble()
-{
+double getDouble() {
 	stringstream ss;
 	string temp;
 	double id;
-	getline(cin,temp);
-	if(!verifyDouble(temp))
+	getline(cin, temp);
+	if (!verifyDouble(temp))
 		throw NoValidEntryException();
 	ss << temp;
 	ss >> id;
 	return id;
 }
 
-long getLong()
-{
+long getLong() {
 	stringstream ss;
 	string temp;
 	long id;
-	getline(cin,temp);
-	if(!verifyInt(temp))
+	getline(cin, temp);
+	if (!verifyInt(temp))
 		throw NoValidEntryException();
 	ss << temp;
 	ss >> id;

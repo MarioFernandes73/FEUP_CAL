@@ -10,11 +10,14 @@
 long Location::idCounter = 0;
 using namespace std;
 
-Location::Location():type(locationType::location){
+Location::Location() :
+		type(locationType::location) {
+	this->id = -1;
 	this->full = false;
 }
 
-Location::Location(string name, pair<double,double> coordinates):type(locationType::location) {
+Location::Location(string name, pair<double, double> coordinates) :
+		type(locationType::location) {
 	this->id = Location::idCounter;
 	this->name = name;
 	this->coordinates = coordinates;
@@ -22,58 +25,56 @@ Location::Location(string name, pair<double,double> coordinates):type(locationTy
 	Location::idCounter++;
 }
 
-
-Location::Location(int id, pair<double,double> coordinates):type(locationType::location)
-{
+Location::Location(int id, pair<double, double> coordinates) :
+		type(locationType::location) {
 	this->id = id;
 	this->coordinates = coordinates;
 	this->full = false;
 }
 
-bool Location::operator ==(const Location &location) const{
+bool Location::operator ==(const Location &location) const {
 	return (this->getId() == location.getId());
 }
 
-bool Location::operator !=(const Location &location) const{
+bool Location::operator !=(const Location &location) const {
 	return (this->getId() != location.getId());
 }
 
-int Location::getId()const {return this->id;}
-string Location::getName(){return this->name;}
-pair<double,double> Location::getCoordinates(){return this->coordinates;}
+int Location::getId() const {
+	return this->id;
+}
+string Location::getName() {
+	return this->name;
+}
+pair<double, double> Location::getCoordinates() {
+	return this->coordinates;
+}
 
-locationType Location::getLocationType()
-{
+locationType Location::getLocationType() {
 	return this->type;
 }
 
-void Location::fillContainer()
-{
+void Location::fillContainer() {
 	this->full = true;
 }
 
-void Location::clearContainer()
-{
+void Location::clearContainer() {
 	this->full = false;
 }
 
-bool Location::isFull()
-{
+bool Location::isFull() {
 	return full;
 }
 
-void Location::setType(locationType type)
-{
+void Location::setType(locationType type) {
 	this->type = type;
 }
 
-void Location::setID(int id)
-{
+void Location::setID(int id) {
 	this->id = id;
 }
 
-void Location::setName(string name)
-{
+void Location::setName(string name) {
 	this->name = name;
 }
 

@@ -10,23 +10,22 @@
 
 using namespace std;
 
-Garage::Garage(string name, pair<double,double> coordinates):Location(name, coordinates) {
+Garage::Garage(string name, pair<double, double> coordinates) :
+		Location(name, coordinates) {
 	this->setType(locationType::garage);
 }
 
-Garage::Garage(long id, std::pair<double,double> coordinates):Location(id, coordinates)
-{
+Garage::Garage(long id, std::pair<double, double> coordinates) :
+		Location(id, coordinates) {
 	this->setName("garage");
 	this->setType(locationType::garage);
 }
 
-void Garage::addVehicle(Vehicle * vehicle)
-{
+void Garage::addVehicle(Vehicle * vehicle) {
 	this->vehicles.push_back(vehicle);
 }
 
-vector<Vehicle *> Garage::getVehicles()
-{
+vector<Vehicle *> Garage::getVehicles() {
 	return this->vehicles;
 }
 

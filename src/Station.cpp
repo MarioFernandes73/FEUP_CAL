@@ -10,12 +10,13 @@
 
 using namespace std;
 
-Station::Station(string name, pair<double,double> coordinates):Location(name,coordinates) {
+Station::Station(string name, pair<double, double> coordinates) :
+		Location(name, coordinates) {
 	this->setType(locationType::station);
 }
 
-Station::Station(long id, pair<double,double> coordinates):Location(id, coordinates)
-{
+Station::Station(long id, pair<double, double> coordinates) :
+		Location(id, coordinates) {
 	this->setName("station");
 	this->setType(locationType::station);
 }
