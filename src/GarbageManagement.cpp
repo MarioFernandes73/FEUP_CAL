@@ -350,6 +350,9 @@ void GarbageManagement::startTests()
 	this->addEdge(200,pair<int,int>(3,7));
 	this->addEdge(200,pair<int,int>(4,7));
 	this->addEdge(200,pair<int,int>(5,7));
+	//this->addEdge(200,pair<int,int>(6,7));
+	//this->addEdge(200,pair<int,int>(7,1));
+	//this->addEdge(200,pair<int,int>(7,0));
 }
 
 /*
@@ -792,6 +795,7 @@ double GarbageManagement::calculatePathScore(vector<Location> path)
 			if((*vertexAdjEdges[j].getDest()) == path[i+1])
 			{
 				score += vertexAdjEdges[j].getWeight();
+				cout << vertexAdjEdges[j].getWeight() << "TESTE" << endl;
 				break;
 			}
 		}
@@ -894,4 +898,108 @@ void GarbageManagement::simulatePath(vector<vector<Location>> paths)
 			this->viewer->rearrange();
 		}
 	}
+}
+
+
+
+void GarbageManagement::evaluateConnectivity()
+{
+	startTests();
+
+	bool directed = false;
+	for(unsigned int i = 0; i < this->graph.getVertexSet().size(); i++)
+	{
+		this->graph.dfsVisit(this->graph.getVertexSet()[i]);
+		for(unsigned int j = 0; j < this->graph.getVertexSet().size(); j++)
+		{
+			if(!this->graph.getVertexSet()[j]->getVisited())
+			{
+				directed = true;
+				break;
+			}
+		}
+		if(directed)
+			break;
+	}
+
+vector<Location> notConnectedLocations;
+for(unsigned int i = 0; i < this->graph.getVertexSet().size(); i++)
+{
+	if(this->graph.getVertexSet()[i]->getAdj().size() == 0)
+	{
+		bool connected = false;
+		for(unsigned int j = 0; j < this->graph.getVertexSet().size(); j++)
+		{
+			vector<Edge<Location>> edges = this->graph.getVertexSet()[j]->getAdj();
+			for(unsigned int k = 0; k < edges.size(); k++)
+			{
+				if(edges[k].getDest()->getInfo().getId() == this->graph.getVertexSet()[i]->getInfo().getId())
+				{
+					connected = true;
+					break;
+				}
+			}
+
+		}
+		if(!connected)
+		{
+			notConnectedLocations.push_back(this->graph.getVertexSet()[i]->getInfo());
+			cout << "Point " << this->graph.getVertexSet()[i]->getInfo().getId() << " is impossible to reach." << endl;
+		}
+}
+}
+
+	if(!directed)
+	{
+		cout << "Graph is not directed since a depth search on a generic point returns every single node." << endl;
+
+		for(unsigned int i = 0; i < this->graph.getVertexSet().size(); i++)
+		{
+			Location location = this->graph.getVertexSet()[i]->getInfo();
+			vector<Edge<Location>> tempEdges = this->graph.getVertexSet()[i]->getAdj();
+			Graph<Location> temp = this->graph.clone();
+			temp.removeVertex(location);
+			for(unsigned int j = 0; j < temp.getVertexSet().size(); j++)
+			{
+				bool isNotConnected = false;
+				for(unsigned int k = 0; k< notConnectedLocations.size(); k++)
+				{
+					if(temp.getVertexSet()[j]->getInfo().getId() == notConnectedLocations[k].getId())
+					{
+						isNotConnected = true;
+					}
+				}
+				if(!isNotConnected && temp.getVertexSet()[j]->getAdj().size() == 0)
+				{
+					cout << "Location " << location.getId() << " is an articulation point." << endl;
+					break;
+				}
+			}
+		}
+	}
+	else
+	{
+		cout << "Graph is directed since a depth search on a generic point doesn't return every single node." << endl;
+		Graph<Location> temp = this->graph.clone();
+		//reverse all edges
+		for(unsigned int i = 0; i < temp.getVertexSet().size(); i++)
+		{
+			Location currentLocation = temp.getVertexSet()[i]->getInfo();
+			vector<Edge<Location>> edges = temp.getVertexSet()[i]->getAdj();
+			for(unsigned int j = 0; j < edges.size(); j++)
+			{
+				temp.removeEdge(currentLocation,edges[j].getDest()->getInfo());
+				temp.addEdge(edges[j].getDest()->getInfo(), currentLocation, 0, EdgeType().DIRECTED);
+			}
+		}
+
+		for(unsigned int i = 0; i<temp.getVertexSet().size(); i++)
+		{
+			if(temp.getVertexSet()[i]->getAdj().size() == 0)
+			{
+				cout << "Graph is not strongly connected in point " << temp.getVertexSet()[i]->getInfo().getId() << endl;
+			}
+		}
+	}
+
 }

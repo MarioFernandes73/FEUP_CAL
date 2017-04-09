@@ -94,6 +94,8 @@ public:
 	void updateGraph(Location * location);
 	void simulatePath(vector<vector<Location>> paths);
 
+	void evaluateConnectivity();
+
 	virtual ~GarbageManagement();
 };
 

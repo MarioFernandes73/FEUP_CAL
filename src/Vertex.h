@@ -46,7 +46,7 @@ public:
 	Vertex* path;
 
 	void updateEdgeFlow(unsigned int index, float f);
-
+	bool getVisited(){return this->visited;}
 };
 
 template <class T>

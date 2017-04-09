@@ -25,11 +25,12 @@ short int initialMenu()
 	cout << TAB << "3 - Vehicle Menu" << endl;
 	cout << TAB << "4 - Settings Menu" << endl;
 	cout << TAB << "5 - Collect garbage" << endl;
+	cout << TAB << "6 - Evaluate Connectivity" << endl;
 	cout << TAB << "0 - Save & Exit" << endl;
 	cout << endl;
 	cout << "Please write your option here: ";
 
-	return readUnsignedShortInt(0,5);
+	return readUnsignedShortInt(0,6);
 }
 
 short int vertexMenu()
@@ -118,6 +119,8 @@ void initialOptions(GarbageManagement & management)
 		case 4: settingsOptions(management);
 		break;
 		case 5: management.simulatePath(management.collectGarbage(getAlgorithm()));
+		break;
+		case 6: management.evaluateConnectivity();
 		}
 	}
 	catch(OutOfBondsException& e){

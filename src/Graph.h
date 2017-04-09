@@ -28,7 +28,7 @@ private:
 
 	//exercicio 5
 	int numCycles;
-	void dfsVisit(Vertex<T> *v);
+
 	void dfsVisit();
 	void getPathTo(Vertex<T> *origin, list<T> &res);
 
@@ -36,6 +36,7 @@ private:
 	int ** W;   //weight
 	int ** P;   //path
 public:
+	void dfsVisit(Vertex<T> *v);
 	bool addVertex(const T &in);
 	bool addEdge(const T &sourc, const T &dest, double w,double f=0);
 	bool removeVertex(const T &in);
@@ -974,4 +975,5 @@ float Graph<T>::calculateFordFulkerson(Vertex<T>* current, Vertex<T>* parent, fl
 	//Return the previously found minimum?
 	return -1;
 }
+
 #endif /* GRAPH_H_ */
