@@ -25,7 +25,7 @@ short int initialMenu() {
 	cout << TAB << "4 - Settings Menu" << endl;
 	cout << TAB << "5 - Collect garbage" << endl;
 	cout << TAB << "6 - Evaluate Connectivity" << endl;
-	cout << TAB << "6 - Stress test" << endl;
+	cout << TAB << "7 - Stress test" << endl;
 	cout << TAB << "0 - Save & Exit" << endl;
 	cout << endl;
 	cout << "Please write your option here: ";
@@ -46,7 +46,7 @@ short int vertexMenu() {
 	cout << TAB << "6 - Remove Garage" << endl;
 	cout << TAB << "7 - Remove Container" << endl;
 	cout << TAB << "8 - Remove Station" << endl;
-	cout << TAB << "0 - Save & Exit" << endl;
+	cout << TAB << "0 - Back" << endl;
 	cout << endl;
 	cout << "Please write your option here: ";
 
@@ -60,6 +60,7 @@ short int edgeMenu() {
 	cout << endl << endl;
 	cout << TAB << "1 - Create Edge" << endl;
 	cout << TAB << "2 - Remove Edge" << endl;
+	cout << TAB << "0 - Back" << endl;
 	cout << endl;
 	cout << "Please write your option here: ";
 
@@ -75,6 +76,7 @@ short int vehicleMenu() {
 	cout << TAB << "2 - Add vehicle type" << endl;
 	cout << TAB << "3 - Remove vehicle type" << endl;
 	cout << TAB << "4 - Remove vehicle" << endl;
+	cout << TAB << "0 - Back" << endl;
 	cout << endl;
 	cout << "Please write your option here: ";
 
@@ -93,6 +95,7 @@ short int settingsMenu() {
 	cout << TAB << "5 - Clear Container" << endl;
 	cout << TAB << "6 - Add Vehicle" << endl;
 	cout << TAB << "7 - Remove Vehicle" << endl;
+	cout << TAB << "0 - Back" << endl;
 	cout << endl;
 	cout << "Please write your option here: ";
 
@@ -210,10 +213,10 @@ void vehicleOptions(GarbageManagement & management) {
 				management.addVehicle(getStationID(), createVehicle());
 				break;
 			case 2:
-				management.addVehicle(getStationID(), createVehicle());
+				management.addVehicleType(getGarbageType(), getPlate());
 				break;
 			case 3:
-				management.addVehicle(getStationID(), createVehicle());
+				management.removeVehicleType(getGarbageType(), getPlate());
 				break;
 			case 4:
 				management.removeVehicle(getPlate());

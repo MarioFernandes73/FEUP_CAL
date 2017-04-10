@@ -63,6 +63,23 @@ string Vehicle::getPlate() {
 	return this->plate;
 }
 
+void Vehicle::addType(garbageType type)
+{
+	this->type.push_back(type);
+}
+
+void Vehicle::removeType(garbageType type)
+{
+	for(unsigned int i = 0; i< this->type.size(); i++)
+	{
+		if(this->type[i] == type)
+		{
+			this->type.erase(this->type.begin() + i);
+			return;
+		}
+	}
+}
+
 Vehicle::~Vehicle() {
 	// TODO Auto-generated destructor stub
 }

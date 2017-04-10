@@ -53,6 +53,8 @@ public:
 	void addGarage(Garage * garage);
 	void addEdge(double weight, std::pair<long,long> vertexesCoord);
 	void addVehicle(int id, Vehicle * vehicle);;
+	void addVehicleType(garbageType type, std::string plate);
+	void removeVehicleType(garbageType type, std::string plate);
 
 	Location * getGenericLocation(long id);
 	Location * getLocation(long id);

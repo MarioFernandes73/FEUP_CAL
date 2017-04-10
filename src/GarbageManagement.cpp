@@ -289,6 +289,44 @@ void GarbageManagement::clearContainer(long id)
 	updateGraph(container);
 }
 
+void GarbageManagement::addVehicleType(garbageType type, std::string plate)
+{
+	for(unsigned int i = 0; i < this->garages.size(); i++)
+	{
+		for(unsigned int j = 0; j < this->garages[i]->getVehicles().size(); j++)
+		{
+			if(this->garages[i]->getVehicles()[j]->getPlate() == plate)
+			{
+				for(unsigned int k = 0; k < this->garages[i]->getVehicles()[j]->getType().size(); k++)
+				{
+					if(this->garages[i]->getVehicles()[j]->getType()[k] == type)
+					{
+						return;
+					}
+				}
+				this->garages[i]->getVehicles()[j]->addType(type);
+				return;
+			}
+		}
+	}
+	throw VehicleNotFoundException();
+}
+
+void  GarbageManagement::removeVehicleType(garbageType type, std::string plate)
+{
+	for(unsigned int i = 0; i < this->garages.size(); i++)
+	{
+		for(unsigned int j = 0; j < this->garages[i]->getVehicles().size(); j++)
+		{
+			if(this->garages[i]->getVehicles()[j]->getPlate() == plate)
+			{
+				this->garages[i]->getVehicles()[j]->removeType(type);
+			}
+		}
+	}
+	throw VehicleNotFoundException();
+}
+
 void GarbageManagement::updateGraph(Location * location)
 {
 	for(unsigned int i = 0; i < this->graph.getVertexSet().size(); i++)
@@ -402,8 +440,8 @@ void GarbageManagement::startTests()
  */
 vector<vector<Location>> GarbageManagement::collectGarbage(int algorithm)
 {
-	if(counter == 0)
-	startTests();
+	if(counter == 0 && this->stations.size() == 0 && this->containers.size() == 0 && this->garages.size() == 0)
+		startTests();
 
 	if(this->stations.size() == 0 || this->containers.size() == 0 || this->garages.size() == 0)
 		throw ImpossibleException();

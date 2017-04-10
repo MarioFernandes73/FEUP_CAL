@@ -34,6 +34,8 @@ public:
 	void fillVehicle();
 	bool loadCurrentCapacity(double load);
 	void moveTo(double xCoord, double yCoord);
+	void addType(garbageType type);
+	void removeType(garbageType type);
 
 	virtual ~Vehicle();
 };
