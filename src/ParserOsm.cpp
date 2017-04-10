@@ -9,13 +9,14 @@
 
 using namespace std;
 
-void vertexParser(GarbageManagement & garbageManagement) {
+void vertexParser(GarbageManagement & garbageManagement, bool value) {
 	ifstream VertexFile("Vertex.txt");
 
 	while (!VertexFile.eof()) {
 		string line, temp;
 		stringstream ss;
 		long id;
+		long tempId;
 		pair<double, double> coordinates;
 		getline(VertexFile, line);
 
@@ -29,11 +30,15 @@ void vertexParser(GarbageManagement & garbageManagement) {
 		ss.str("");
 
 		line = line.substr(line.find(";") + 1);
-		temp = temp.substr(0, line.find(";"));
+		temp = line.substr(0, line.find(";"));
 		ss << temp;
 		ss >> coordinates.first;
 		ss.clear();
 		ss.str("");
+		if (value) {
+			tempId = coordinates.first * 100000;
+			coordinates.first = tempId % 1000;
+		}
 
 		line = line.substr(line.find(";") + 1);
 		temp = line.substr(0, line.find(";"));
@@ -41,6 +46,10 @@ void vertexParser(GarbageManagement & garbageManagement) {
 		ss >> coordinates.second;
 		ss.clear();
 		ss.str("");
+		if (value) {
+			tempId = coordinates.second * 100000;
+			coordinates.second = tempId % 1000;
+		}
 
 		garbageManagement.addLocation(new Location(id, coordinates));
 	}

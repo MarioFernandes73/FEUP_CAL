@@ -84,7 +84,7 @@ public:
 	bool loadVehicle(Vehicle * vehicle, Location location);
 	Location getNextLocation(Vehicle * vehicle, std::vector<Location> locations);
 	bool garagesHasPossibleVehicle(Garage garage, Location location);
-	Vehicle * getBestVehicle(Garage garage);
+	Vehicle * getBestVehicle(Garage garage, Location location);
 	void moveToStation(Vehicle * vehicle, std::vector<Location>&currentPath);
 	std::vector<Location> calculateBestPath(std::vector<std::vector<Location>> paths);
 	double calculatePathScore(std::vector<Location> path);

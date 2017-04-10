@@ -16,12 +16,14 @@ long GarbageManagement::edgeCounter=0;
 const int typeGarage = 1;
 const int typeContainer = 2;
 const int typeStation = 3;
+int counter = 0;
 
 GarbageManagement::GarbageManagement() {
 	this->viewer = new GraphViewer(640,480,false);
 	this->viewer->createWindow(640, 480);
 	this->viewer->defineVertexColor("blue");
 	this->viewer->defineEdgeColor("black");
+	this->algorithm = 1;
 }
 
 GarbageManagement::~GarbageManagement() {
@@ -51,7 +53,7 @@ void GarbageManagement::addContainer(Container * container)
 	this->containers.push_back(container);
 	this->graph.addVertex((*container));
 	this->viewer->addNode(container->getId(),container->getCoordinates().first, container->getCoordinates().second);
-	this->viewer->setVertexColor(container->getId(),GRAY);
+	this->viewer->setVertexColor(container->getId(),BLUE);
 	this->viewer->rearrange();
 }
 
@@ -275,7 +277,7 @@ void GarbageManagement::fillContainer(long id)
 {
 	Container * container = this->getContainer(id);
 	container->fillContainer();
-	this->viewer->setVertexColor(container->getId(),CYAN);
+	this->viewer->setVertexColor(container->getId(),RED);
 	updateGraph(container);
 }
 
@@ -308,11 +310,17 @@ void GarbageManagement::startTests()
 	Garage * l0 = new Garage("ola",pair<double,double>(100,100));
 	Garage * l1 = new Garage("ola",pair<double,double>(500,100));
 	Location * l2 = new Location("ola",pair<double,double>(250,100));
-	Container * l3 = new Container("ola",pair<double,double>(200,200), garbageType::glass,1);
-	Container * l4 = new Container("ola",pair<double,double>(400,200), garbageType::glass,1);
-	Container * l5 = new Container("ola",pair<double,double>(300,300), garbageType::glass,1);
-	Station * l6 = new Station("ola",pair<double,double>(100,500));
-	Station * l7 = new Station("ola",pair<double,double>(500,500));
+	Container * l3 = new Container("ola",pair<double,double>(200,200), garbageType::glass,100);
+	Container * l4 = new Container("ola",pair<double,double>(400,200), garbageType::glass,100);
+	Container * l5 = new Container("ola",pair<double,double>(500,200), garbageType::paper,100);
+	Container * l6 = new Container("ola",pair<double,double>(600,200), garbageType::glass,100);
+	Container * l7 = new Container("ola",pair<double,double>(700,200), garbageType::glass,100);
+	Container * l8 = new Container("ola",pair<double,double>(800,200), garbageType::paper,100);
+	Container * l9 = new Container("ola",pair<double,double>(900,200), garbageType::glass,100);
+	Container * l10 = new Container("ola",pair<double,double>(1000,200), garbageType::glass,100);
+	Container * l11 = new Container("ola",pair<double,double>(1100,200), garbageType::paper,100);
+	Station * l12 = new Station("ola",pair<double,double>(100,500));
+	Station * l13 = new Station("ola",pair<double,double>(500,500));
 
 	this->addGarage(l0);
 	this->addGarage(l1);
@@ -320,16 +328,35 @@ void GarbageManagement::startTests()
 	this->addContainer(l3);
 	this->addContainer(l4);
 	this->addContainer(l5);
-	this->addStation(l6);
-	this->addStation(l7);
+	this->addContainer(l6);
+	this->addContainer(l7);
+	this->addContainer(l8);
+	this->addContainer(l9);
+	this->addContainer(l10);
+	this->addContainer(l11);
+	this->addStation(l12);
+	this->addStation(l13);
 
 	fillContainer(l3->getId());
 	fillContainer(l4->getId());
 	fillContainer(l5->getId());
+	fillContainer(l6->getId());
+	fillContainer(l7->getId());
+	fillContainer(l8->getId());
+	fillContainer(l9->getId());
+	fillContainer(l10->getId());
+	fillContainer(l11->getId());
 
 	for(unsigned int i = 0; i<this->garages.size(); i++)
 	{
 		this->garages[i]->addVehicle(new Vehicle("as",garbageType::glass,500));
+		this->garages[i]->addVehicle(new Vehicle("as",garbageType::glass,500));
+		this->garages[i]->addVehicle(new Vehicle("as",garbageType::generic,500));
+		this->garages[i]->addVehicle(new Vehicle("as",garbageType::paper,500));
+		this->garages[i]->addVehicle(new Vehicle("as",garbageType::generic,500));
+		this->garages[i]->addVehicle(new Vehicle("as",garbageType::paper,500));
+		this->garages[i]->addVehicle(new Vehicle("as",garbageType::plastic,500));
+		this->garages[i]->addVehicle(new Vehicle("as",garbageType::plastic,500));
 	}
 
 	this->viewer->rearrange();
@@ -350,9 +377,18 @@ void GarbageManagement::startTests()
 	this->addEdge(200,pair<int,int>(3,7));
 	this->addEdge(200,pair<int,int>(4,7));
 	this->addEdge(200,pair<int,int>(5,7));
-	//this->addEdge(200,pair<int,int>(6,7));
-	//this->addEdge(200,pair<int,int>(7,1));
-	//this->addEdge(200,pair<int,int>(7,0));
+	this->addEdge(200,pair<int,int>(5,8));
+	this->addEdge(200,pair<int,int>(5,9));
+	this->addEdge(200,pair<int,int>(5,10));
+	this->addEdge(200,pair<int,int>(5,11));
+	this->addEdge(200,pair<int,int>(6,7));
+	this->addEdge(200,pair<int,int>(7,5));
+	this->addEdge(200,pair<int,int>(8,5));
+	this->addEdge(200,pair<int,int>(9,5));
+	this->addEdge(200,pair<int,int>(10,5));
+	this->addEdge(200,pair<int,int>(11,5));
+	this->addEdge(200,pair<int,int>(5,12));
+	this->addEdge(200,pair<int,int>(5,13));
 }
 
 /*
@@ -366,15 +402,21 @@ void GarbageManagement::startTests()
  */
 vector<vector<Location>> GarbageManagement::collectGarbage(int algorithm)
 {
+	if(counter == 0)
+	startTests();
+
+	if(this->stations.size() == 0 || this->containers.size() == 0 || this->garages.size() == 0)
+		throw ImpossibleException();
+
 	this->algorithm = algorithm;
 	clock_t begin = clock();
 	vector<vector<Location>> paths;
 
 	resetVehicles();
-	startTests();
+
 
 	//run floydWarshallShortestPath to map the distances of the vertexes
-	if(algorithm == 1)
+	if(algorithm == 1 && counter == 0)
 		this->graph.floydWarshallShortestPath();
 
 	//get containers that need to be picked up
@@ -396,7 +438,6 @@ vector<vector<Location>> GarbageManagement::collectGarbage(int algorithm)
 		vector<Location> currentPath;
 		//identify which garages have vehicles that collect the same garbage type as the filledContainers
 		vector<Garage> possibleGarages = getPossibleGarages(filledContainers);
-
 		//identify which are the best vertexes to start the collection of garbage
 		pair<Location,Location> startEndVertexes;
 		//if there is only 1 filled container -> pair <Location,"null" location (has -1 id)>
@@ -407,14 +448,16 @@ vector<vector<Location>> GarbageManagement::collectGarbage(int algorithm)
 		}
 		else
 			startEndVertexes = calculateBestVertexes(filledContainers);
-
 		//identify the best starting vertex
 		Garage bestGarage = Garage();
 		calculateBestStart(startEndVertexes, possibleGarages, bestGarage);
 
 		currentPath.push_back(bestGarage);
 		//we now have the best starting point, the best garage to start in
-		Vehicle * currentVehicle = getBestVehicle(bestGarage);
+		Vehicle * currentVehicle = getBestVehicle(bestGarage, startEndVertexes.first);
+
+		if(currentVehicle == NULL)
+			break;
 
 		//move to first best vertex
 		currentVehicle->moveTo(startEndVertexes.first.getCoordinates().first, startEndVertexes.first.getCoordinates().second);
@@ -459,19 +502,12 @@ vector<vector<Location>> GarbageManagement::collectGarbage(int algorithm)
 		paths.push_back(currentPath);
 	}
 
-	for(unsigned int i = 0; i < paths.size(); i++)
-	{
-		for(unsigned int j = 0; j < paths[i].size(); j++)
-		{
-			cout << paths[i][j].getId() << endl;
-		}
-	}
-
 	clock_t end = clock();
 	double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
 
 	cout << "Elapsed time:" << elapsed_secs << endl;
 
+	counter++;
 	return paths;
 }
 
@@ -517,20 +553,33 @@ void GarbageManagement::moveToStation(Vehicle * vehicle, vector<Location>&curren
 	currentPath.push_back((*bestStation));
 }
 
-Vehicle * GarbageManagement::getBestVehicle(Garage garage)
+Vehicle * GarbageManagement::getBestVehicle(Garage garage, Location location)
 {
+	Container * container = this->getContainer(location.getId());
 	double score = 0;
 	Vehicle * bestVehicle = NULL;
 	for(unsigned int i = 0; i < garage.getVehicles().size(); i++)
 	{
 		if(!garage.getVehicles()[i]->isFull())
 		{
-			double currentScore = garage.getVehicles()[i]->getCapacity() * garage.getVehicles()[i]->getType().size();
-			if(currentScore > score)
+			bool isAble = false;
+			for(unsigned int j = 0; j < garage.getVehicles()[i]->getType().size(); j++)
 			{
-				bestVehicle = garage.getVehicles()[i];
-				score = currentScore;
+				if(garage.getVehicles()[i]->getType()[j] == container->getType())
+					isAble = true;
 			}
+			if(!isAble)
+				continue;
+			else
+			{
+				double currentScore = garage.getVehicles()[i]->getCapacity() * garage.getVehicles()[i]->getType().size();
+				if(currentScore > score)
+				{
+					bestVehicle = garage.getVehicles()[i];
+					score = currentScore;
+				}
+			}
+
 		}
 	}
 	return bestVehicle;
@@ -553,20 +602,32 @@ Location GarbageManagement::getNextLocation(Vehicle * vehicle, vector<Location> 
 	{
 		if((vehicle->getCapacity() - vehicle->getCurrentCapacity()) > currentLocation->getCapacity())
 		{
-			double currentScore;
-			//score based on weight
-			if(algorithm == 1)
-				currentScore = this->calculatePathScore(this->graph.getfloydWarshallPath((*currentLocation),locations[i]));
+			bool isAble = false;
+			Container * iteratedContainer = this->getContainer(locations[i].getId());
+			for(unsigned int j = 0; j < vehicle->getType().size(); j++)
+			{
+				if(vehicle->getType()[j] == iteratedContainer->getType())
+					isAble = true;
+			}
+			if(!isAble)
+				continue;
 			else
 			{
-				this->graph.dijkstraShortestPath((*currentLocation));
-				currentScore = this->calculatePathScore(this->graph.getPath((*currentLocation),locations[i]));
-			}
+				double currentScore;
+				//score based on weight
+				if(algorithm == 1)
+					currentScore = this->calculatePathScore(this->graph.getfloydWarshallPath((*currentLocation),locations[i]));
+				else
+				{
+					this->graph.dijkstraShortestPath((*currentLocation));
+					currentScore = this->calculatePathScore(this->graph.getPath((*currentLocation),locations[i]));
+				}
 
-			if(currentScore < minScore)
-			{
-				minScore = currentScore;
-				bestLocation = locations[i];
+				if(currentScore < minScore)
+				{
+					minScore = currentScore;
+					bestLocation = locations[i];
+				}
 			}
 		}
 	}
@@ -795,7 +856,6 @@ double GarbageManagement::calculatePathScore(vector<Location> path)
 			if((*vertexAdjEdges[j].getDest()) == path[i+1])
 			{
 				score += vertexAdjEdges[j].getWeight();
-				cout << vertexAdjEdges[j].getWeight() << "TESTE" << endl;
 				break;
 			}
 		}
@@ -871,7 +931,7 @@ void GarbageManagement::simulatePath(vector<vector<Location>> paths)
 		for(unsigned int j = 0; j < fullPath[i].size(); j++)
 		{
 			cout << fullPath[i][j].getId() << endl;
-			this->viewer->setVertexColor(fullPath[i][j].getId(),ORANGE);
+			/*this->viewer->setVertexColor(fullPath[i][j].getId(),ORANGE);
 			this->viewer->rearrange();
 			clock_t begin = clock();
 			clock_t end = clock();
@@ -895,7 +955,7 @@ void GarbageManagement::simulatePath(vector<vector<Location>> paths)
 			{
 				this->viewer->setVertexColor(fullPath[i][j].getId(),BLUE);
 			}
-			this->viewer->rearrange();
+			this->viewer->rearrange();*/
 		}
 	}
 }

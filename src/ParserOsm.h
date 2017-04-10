@@ -13,7 +13,7 @@
 #include <sstream>
 #include <fstream>
 
-void vertexParser(GarbageManagement &garbageManagement);
+void vertexParser(GarbageManagement &garbageManagement, bool value);
 void edgesParser(GarbageManagement &garbageManagement);
 
 void saveVertexes(GarbageManagement &garbageManagement);

@@ -10,6 +10,7 @@
 #include "MyExceptions.h"
 #include "Interaction.h"
 #include <iostream>
+#include <ctime>
 
 using namespace std;
 
@@ -24,11 +25,12 @@ short int initialMenu() {
 	cout << TAB << "4 - Settings Menu" << endl;
 	cout << TAB << "5 - Collect garbage" << endl;
 	cout << TAB << "6 - Evaluate Connectivity" << endl;
+	cout << TAB << "6 - Stress test" << endl;
 	cout << TAB << "0 - Save & Exit" << endl;
 	cout << endl;
 	cout << "Please write your option here: ";
 
-	return readUnsignedShortInt(0, 6);
+	return readUnsignedShortInt(0, 7);
 }
 
 short int vertexMenu() {
@@ -120,9 +122,28 @@ void initialOptions(GarbageManagement & management) {
 				break;
 			case 6:
 				management.evaluateConnectivity();
+				break;
+			case 7:
+				clock_t begin = clock();
+				for(unsigned int i = 0; i < 100 ; i++)
+				{
+					management.collectGarbage(1);
+				}
+				clock_t middle = clock();
+				for(unsigned int i = 0; i < 100 ; i++)
+				{
+					management.collectGarbage(2);
+				}
+				clock_t end = clock();
+				cout << "Floyd Warshall's:" << double(middle - begin) / CLOCKS_PER_SEC << endl;
+				cout << "Dijkstra's:" << double(end - middle) / CLOCKS_PER_SEC << endl;
+
 			}
 		} catch (OutOfBondsException& e) {
 			cout << endl << "Value is out of bonds!" << endl;
+		}
+		catch (ImpossibleException& e) {
+			cout << endl << "Impossible graph to collect garbage from." << endl;
 		}
 }
 

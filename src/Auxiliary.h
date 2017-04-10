@@ -29,4 +29,6 @@ int getInt();
 double getDouble();
 long getLong();
 
+bool confirm();
+
 #endif /* AUXILIARY_H_ */

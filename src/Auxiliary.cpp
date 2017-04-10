@@ -14,6 +14,19 @@
 
 using namespace std;
 
+bool confirm()
+{
+	string temp;
+	cout << "Insert Y to confirm your action: ";
+	getline(cin,temp);
+	if (temp=="Y" || temp == "y")
+	{
+		return true;
+	}
+	else
+		return false;
+}
+
 bool verifyInt(string temp) {
 	if (temp == "")
 		return false;

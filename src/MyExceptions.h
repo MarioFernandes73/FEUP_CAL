@@ -24,4 +24,11 @@ public:
 	;
 };
 
+class ImpossibleException {
+public:
+	ImpossibleException() {
+	}
+	;
+};
+
 #endif
