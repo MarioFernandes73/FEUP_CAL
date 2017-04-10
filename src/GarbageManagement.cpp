@@ -969,7 +969,7 @@ void GarbageManagement::simulatePath(vector<vector<Location>> paths)
 		for(unsigned int j = 0; j < fullPath[i].size(); j++)
 		{
 			cout << fullPath[i][j].getId() << endl;
-			/*this->viewer->setVertexColor(fullPath[i][j].getId(),ORANGE);
+			this->viewer->setVertexColor(fullPath[i][j].getId(),ORANGE);
 			this->viewer->rearrange();
 			clock_t begin = clock();
 			clock_t end = clock();
@@ -993,7 +993,7 @@ void GarbageManagement::simulatePath(vector<vector<Location>> paths)
 			{
 				this->viewer->setVertexColor(fullPath[i][j].getId(),BLUE);
 			}
-			this->viewer->rearrange();*/
+			this->viewer->rearrange();
 		}
 	}
 }
