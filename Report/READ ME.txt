@@ -1,0 +1,6 @@
+To compile this compile and run this program:
+
+-> open src code on eclipse
+-> go to project properties -> C/C++ Build -> Settings -> Miscellaneous
+-> add to "other objects" <path_to_MinGW>\lib\libwsock32.a
+-> build and run (preferably with the .txt files provided on the project's folder)
