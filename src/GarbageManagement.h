@@ -51,6 +51,7 @@ public:
 	void addStation(Station * station);
 	void addContainer(Container * container);
 	void addGarage(Garage * garage);
+	void addEdge2(double weight, std::pair<long,long> vertexesCoord);
 	void addEdge(double weight, std::pair<long,long> vertexesCoord);
 	void addVehicle(int id, Vehicle * vehicle);;
 	void addVehicleType(garbageType type, std::string plate);
@@ -74,6 +75,7 @@ public:
 	void setGarage(long id);
 	void setContainer(long id, garbageType type, double quantity);
 	void setStation(long id);
+	void setExistingEdges(long id);
 
 	void fillContainer(long id);
 	void clearContainer(long id);

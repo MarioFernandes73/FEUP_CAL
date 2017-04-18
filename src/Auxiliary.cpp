@@ -47,13 +47,12 @@ bool verifyDouble(string temp) {
 	for (unsigned int i = 0; i < temp.size(); i++) {
 		if (!isdigit(temp[i]))
 			return false;
-		else if (temp[i] == '.')
+		else if (temp[i] == '.'){
 			if (!dot)
 				dot = true;
 			else
 				return false;
-		else
-			return false;
+		}
 	}
 	return true;
 }

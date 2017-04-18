@@ -93,8 +93,6 @@ short int settingsMenu() {
 	cout << TAB << "3 - Set Station" << endl;
 	cout << TAB << "4 - Fill Container" << endl;
 	cout << TAB << "5 - Clear Container" << endl;
-	cout << TAB << "6 - Add Vehicle" << endl;
-	cout << TAB << "7 - Remove Vehicle" << endl;
 	cout << TAB << "0 - Back" << endl;
 	cout << endl;
 	cout << "Please write your option here: ";
@@ -234,7 +232,7 @@ void settingsOptions(GarbageManagement & management) {
 	unsigned int short option = 1;
 	while (option > 0)
 		try {
-			switch (option = edgeMenu()) {
+			switch (option = settingsMenu()) {
 			case 1:
 				management.setGarage(getLocationID());
 				break;

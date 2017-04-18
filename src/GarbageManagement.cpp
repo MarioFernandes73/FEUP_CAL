@@ -85,6 +85,23 @@ void GarbageManagement::addEdge(double weight, pair<long,long> vertexesCoord)
 	edgeCounter++;
 }
 
+void GarbageManagement::addEdge2(double weight, pair<long,long> vertexesCoord)
+{
+	double trueWeight = weight;
+	Location * sourceLocation = getLocation(vertexesCoord.first);
+	Location * destLocation = getLocation(vertexesCoord.second);
+
+	if(weight == 0)
+	{
+		trueWeight = abs(destLocation->getCoordinates().first - sourceLocation->getCoordinates().first)
+				+ abs(destLocation->getCoordinates().second - sourceLocation->getCoordinates().second);
+	}
+	this->graph.addEdge((*sourceLocation), (*destLocation), trueWeight);
+	this->viewer->addEdge(edgeCounter,sourceLocation->getId(), destLocation->getId(),EdgeType().DIRECTED);
+	this->viewer->rearrange();
+	edgeCounter++;
+}
+
 void GarbageManagement::addVehicle(int id, Vehicle * vehicle)
 {
 	Garage * garage = getGarage(id);
@@ -257,35 +274,52 @@ Station * GarbageManagement::getStation(long id)
 	return NULL;
 }
 
+void GarbageManagement::setExistingEdges(long id)
+{
+	for(unsigned int i = 0; i < this->edges.size(); i++)
+	{
+		if(this->edges[i].second.first == id || this->edges[i].second.second == id)
+		{
+			this->addEdge2(0,this->edges[i].second);
+		}
+	}
+}
+
 void GarbageManagement::setGarage(long id)
 {
 	Location * location = this->getGenericLocation(id);
 	Garage * garage = new Garage(id, location->getCoordinates());
-	this->addGarage(garage);
 	this->removeLocation(id);
+	this->addGarage(garage);
+	this->setExistingEdges(id);
 }
 
 void GarbageManagement::setContainer(long id, garbageType type, double quantity)
 {
 	Location * location = this->getGenericLocation(id);
 	Container * container = new Container(id, location->getCoordinates(), type, quantity);
-	this->addContainer(container);
 	this->removeLocation(id);
+	this->addContainer(container);
+	this->setExistingEdges(id);
 }
 
 void GarbageManagement::setStation(long id)
 {
 	Location * location = this->getGenericLocation(id);
 	Station * station = new Station(id, location->getCoordinates());
-	this->addStation(station);
 	this->removeLocation(id);
+	this->addStation(station);
+	this->setExistingEdges(id);
 }
 
 void GarbageManagement::fillContainer(long id)
 {
 	Container * container = this->getContainer(id);
+	if(container == NULL)
+		throw NoValidEntryException();
 	container->fillContainer();
 	this->viewer->setVertexColor(container->getId(),RED);
+	this->viewer->rearrange();
 	updateGraph(container);
 }
 
@@ -293,7 +327,8 @@ void GarbageManagement::clearContainer(long id)
 {
 	Container * container = this->getContainer(id);
 	container->clearContainer();
-	this->viewer->setVertexColor(container->getId(),GRAY);
+	this->viewer->setVertexColor(container->getId(),BLUE);
+	this->viewer->rearrange();
 	updateGraph(container);
 }
 
@@ -832,12 +867,12 @@ pair<Location,Location>GarbageManagement::calculateBestVertexes(vector<Location>
 		if((currentLocationScore > locationScores.first) || (currentLocationScore > locationScores.second) )
 		{
 			double temp = (locationScores.first - locationScores.second);
-			if( locationScores.first == 0 || temp > 0)
+			if( locationScores.first == 0 || temp < 0)
 			{
 				locationScores.first = currentLocationScore;
 				bestLocations.first = locations[i];
 			}
-			else if(locationScores.second == 0 || temp < 0)
+			else if(locationScores.second == 0 || temp > 0)
 			{
 				locationScores.second = currentLocationScore;
 				bestLocations.second = locations[i];
