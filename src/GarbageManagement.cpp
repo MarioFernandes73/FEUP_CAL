@@ -77,7 +77,8 @@ void GarbageManagement::addEdge(double weight, pair<long,long> vertexesCoord)
 		trueWeight = abs(destLocation->getCoordinates().first - sourceLocation->getCoordinates().first)
 				+ abs(destLocation->getCoordinates().second - sourceLocation->getCoordinates().second);
 	}
-	this->edges.insert(pair<pair<long,long>,long>(vertexesCoord,edgeCounter));
+	pair<long,pair<long,long>> temp = pair<long,pair<long,long>>(edgeCounter,vertexesCoord);
+	this->edges.push_back(temp);
 	this->graph.addEdge((*sourceLocation), (*destLocation), trueWeight);
 	this->viewer->addEdge(edgeCounter,sourceLocation->getId(), destLocation->getId(),EdgeType().DIRECTED);
 	this->viewer->rearrange();
@@ -157,10 +158,17 @@ void GarbageManagement::removeStation(long id){
 
 void GarbageManagement::removeEdge(pair<long,long> vertexesCoord)
 {
-	long edgeID = this->edges.find(vertexesCoord)->second;
+	long edgeID;
+	for(unsigned int i = 0; i< this->getEdges().size(); i++)
+	{
+		if(this->getEdges()[i].second == vertexesCoord){
+			edgeID = this->getEdges()[i].first;
+			this->getEdges().erase(this->getEdges().begin()+i);
+			break;
+		}
+	}
 	this->graph.removeEdge((*this->getLocation(vertexesCoord.first)),(*this->getLocation(vertexesCoord.second)));
 	this->viewer->removeEdge(edgeID);
-	this->edges.erase(vertexesCoord);
 }
 
 void GarbageManagement::removeVehicle(string plate)

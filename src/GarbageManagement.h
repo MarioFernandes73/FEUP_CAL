@@ -35,7 +35,7 @@ private:
 	std::vector <Garage *> garages;
 	std::vector <Container *> containers;
 	std::vector <Station *> stations;
-	std::map<std::pair<long,long>,long> edges;
+	std::vector <std::pair<long,std::pair<long,long>>> edges;
 
 public:
 	GarbageManagement();
@@ -45,7 +45,7 @@ public:
 	std::vector <Garage *> getGarages(){return this->garages;}
 	std::vector <Container *> getContainers(){return this->containers;}
 	std::vector <Station *> getStations(){return this->stations;}
-	std::map<std::pair<long,long>,long> getEdges(){return this->edges;}
+	std::vector <std::pair<long,std::pair<long,long>>> getEdges(){return this->edges;}
 
 	void addLocation(Location * location);
 	void addStation(Station * station);

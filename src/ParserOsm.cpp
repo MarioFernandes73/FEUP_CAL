@@ -93,7 +93,6 @@ void edgesParser(GarbageManagement &garbageManagement) {
 
 	}
 	EdgeFile.close();
-
 }
 
 void saveVertexes(GarbageManagement &garbageManagement) {
@@ -134,10 +133,10 @@ void saveVertexes(GarbageManagement &garbageManagement) {
 void saveEdges(GarbageManagement &garbageManagement) {
 	ofstream EdgeFile("Edges.txt");
 
-	for (map<pair<long, long>, long>::iterator it =
-			garbageManagement.getEdges().begin();
-			it != garbageManagement.getEdges().end(); ++it) {
-		EdgeFile << it->second << ";" << it->first.first << ";"
-				<< it->first.second << endl;
+
+	for(unsigned int i = 0; i< garbageManagement.getEdges().size(); i++)
+	{
+		EdgeFile << garbageManagement.getEdges()[i].first << ";" << garbageManagement.getEdges()[i].second.first << ";"
+				<< garbageManagement.getEdges()[i].second.second << endl;
 	}
 }
