@@ -105,9 +105,9 @@ public:
 	void evaluateConnectivity();
 
 
-	std::string findStreetExact(std::string input);
-	std::string findStreetAproximated(std::string input, int distance);
-	vector<std::string> findAllStreetAproximated(std::string input, int distance);
+	Street * findStreetExact(std::string input);
+	Street * findStreetAproximated(std::string input, int distance);
+	vector<Street *> findAllStreetAproximated(std::string input, int distance);
 
 };
 

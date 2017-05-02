@@ -1145,20 +1145,20 @@ for(unsigned int i = 0; i < this->graph.getVertexSet().size(); i++)
 	}
 }
 
-string GarbageManagement::findStreetExact(string input){
-	string result = "";
+Street * GarbageManagement::findStreetExact(string input){
+	Street * resStreet = NULL;
 
-	return result;
+	return resStreet;
 }
 
-string GarbageManagement::findStreetAproximated(string input, int distance){
-	string result = "";
+Street * GarbageManagement::findStreetAproximated(string input, int distance){
+	Street * resStreet = NULL;
 
-	return result;
+	return resStreet;
 }
 
-vector<string> GarbageManagement::findAllStreetAproximated(string input, int distance){
-	vector<string> result;
+vector<Street *> GarbageManagement::findAllStreetAproximated(string input, int distance){
+	vector<Street *> resStreets;
 
-	return result;
+	return resStreets;
 }
