@@ -1045,6 +1045,7 @@ void GarbageManagement::simulatePath(vector<vector<Location>> paths)
 
 void GarbageManagement::evaluateConnectivity()
 {
+	if(this->genericLocations.size() == 0)
 	startTests();
 
 	bool directed = false;
