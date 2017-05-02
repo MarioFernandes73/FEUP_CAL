@@ -1151,13 +1151,13 @@ string GarbageManagement::findStreetExact(string input){
 	return result;
 }
 
-string GarbageManagement::findStreetAproximated(string input){
+string GarbageManagement::findStreetAproximated(string input, int distance){
 	string result = "";
 
 	return result;
 }
 
-vector<string> GarbageManagement::findAllStreetAproximated(string input){
+vector<string> GarbageManagement::findAllStreetAproximated(string input, int distance){
 	vector<string> result;
 
 	return result;

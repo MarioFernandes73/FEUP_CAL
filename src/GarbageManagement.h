@@ -106,8 +106,8 @@ public:
 
 
 	std::string findStreetExact(std::string input);
-	std::string findStreetAproximated(std::string input);
-	vector<std::string> findAllStreetAproximated(std::string input);
+	std::string findStreetAproximated(std::string input, int distance);
+	vector<std::string> findAllStreetAproximated(std::string input, int distance);
 
 };
 
