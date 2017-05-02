@@ -104,6 +104,11 @@ public:
 
 	void evaluateConnectivity();
 
+
+	std::string findStreetExact(std::string input);
+	std::string findStreetAproximated(std::string input);
+	vector<std::string> findAllStreetAproximated(std::string input);
+
 };
 
 #endif /* GARBAGEMANAGEMENT_H_ */

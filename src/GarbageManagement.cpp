@@ -1143,5 +1143,22 @@ for(unsigned int i = 0; i < this->graph.getVertexSet().size(); i++)
 			}
 		}
 	}
+}
 
+string GarbageManagement::findStreetExact(string input){
+	string result = "";
+
+	return result;
+}
+
+string GarbageManagement::findStreetAproximated(string input){
+	string result = "";
+
+	return result;
+}
+
+vector<string> GarbageManagement::findAllStreetAproximated(string input){
+	vector<string> result;
+
+	return result;
 }
