@@ -20,6 +20,7 @@
 #include "Garage.h"
 #include "Station.h"
 #include "Container.h"
+#include "Street.h"
 
 
 class GarbageManagement {
@@ -35,25 +36,28 @@ private:
 	std::vector <Garage *> garages;
 	std::vector <Container *> containers;
 	std::vector <Station *> stations;
-	std::vector <std::pair<long,std::pair<long,long>>> edges;
+	std::vector<Street *> streets;
+	//std::vector <std::pair<long,std::pair<long,long>>> edges;
 
 public:
 	GarbageManagement();
-
+	virtual ~GarbageManagement();
 	Graph<Location> getGraph(){return this->graph;}
 	std::vector <Location *> getGenericLocations(){return this->genericLocations;}
 	std::vector <Garage *> getGarages(){return this->garages;}
 	std::vector <Container *> getContainers(){return this->containers;}
 	std::vector <Station *> getStations(){return this->stations;}
-	std::vector <std::pair<long,std::pair<long,long>>> getEdges(){return this->edges;}
+	std::vector<Street *> getStreets(){return this->streets;}
+	//std::vector <std::pair<long,std::pair<long,long>>> getEdges(){return this->edges;}
 
 	void addLocation(Location * location);
 	void addStation(Station * station);
 	void addContainer(Container * container);
 	void addGarage(Garage * garage);
 	void addEdge2(double weight, std::pair<long,long> vertexesCoord);
-	void addEdge(double weight, std::pair<long,long> vertexesCoord);
-	void addVehicle(int id, Vehicle * vehicle);;
+	void addEdge(double weight, std::pair<long,long> vertexesCoord, std::string name);
+	void addEdge(double weight, std::pair<long,long> vertexesCoord){this->addEdge(weight, vertexesCoord, "");}
+	void addVehicle(int id, Vehicle * vehicle);
 	void addVehicleType(garbageType type, std::string plate);
 	void removeVehicleType(garbageType type, std::string plate);
 
@@ -100,7 +104,6 @@ public:
 
 	void evaluateConnectivity();
 
-	virtual ~GarbageManagement();
 };
 
 #endif /* GARBAGEMANAGEMENT_H_ */

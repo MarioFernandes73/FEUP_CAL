@@ -133,10 +133,10 @@ void saveVertexes(GarbageManagement &garbageManagement) {
 void saveEdges(GarbageManagement &garbageManagement) {
 	ofstream EdgeFile("Edges.txt");
 
-
-	for(unsigned int i = 0; i< garbageManagement.getEdges().size(); i++)
+	for(unsigned int i = 0; i< garbageManagement.getStreets().size(); i++)
 	{
-		EdgeFile << garbageManagement.getEdges()[i].first << ";" << garbageManagement.getEdges()[i].second.first << ";"
-				<< garbageManagement.getEdges()[i].second.second << endl;
+		Street * tempStreet = garbageManagement.getStreets()[i];
+		EdgeFile << tempStreet->getId() << ";" << tempStreet->getLocation1()->getId() << ";"
+				<< tempStreet->getLocation2()->getId() << endl;
 	}
 }

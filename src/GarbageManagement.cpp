@@ -12,7 +12,6 @@
 #include <algorithm>
 #include <ctime>
 
-long GarbageManagement::edgeCounter=0;
 const int typeGarage = 1;
 const int typeContainer = 2;
 const int typeStation = 3;
@@ -66,7 +65,7 @@ void GarbageManagement::addStation(Station * station)
 	this->viewer->rearrange();
 }
 
-void GarbageManagement::addEdge(double weight, pair<long,long> vertexesCoord)
+void GarbageManagement::addEdge(double weight, pair<long,long> vertexesCoord, string name)
 {
 	double trueWeight = weight;
 	Location * sourceLocation = getLocation(vertexesCoord.first);
@@ -77,12 +76,11 @@ void GarbageManagement::addEdge(double weight, pair<long,long> vertexesCoord)
 		trueWeight = abs(destLocation->getCoordinates().first - sourceLocation->getCoordinates().first)
 				+ abs(destLocation->getCoordinates().second - sourceLocation->getCoordinates().second);
 	}
-	pair<long,pair<long,long>> temp = pair<long,pair<long,long>>(edgeCounter,vertexesCoord);
-	this->edges.push_back(temp);
+	Street * newStreet = new Street(name,sourceLocation, destLocation);
+	this->streets.push_back(newStreet);
 	this->graph.addEdge((*sourceLocation), (*destLocation), trueWeight);
-	this->viewer->addEdge(edgeCounter,sourceLocation->getId(), destLocation->getId(),EdgeType().DIRECTED);
+	this->viewer->addEdge(newStreet->getId(),sourceLocation->getId(), destLocation->getId(),EdgeType().DIRECTED);
 	this->viewer->rearrange();
-	edgeCounter++;
 }
 
 void GarbageManagement::addEdge2(double weight, pair<long,long> vertexesCoord)
@@ -97,9 +95,9 @@ void GarbageManagement::addEdge2(double weight, pair<long,long> vertexesCoord)
 				+ abs(destLocation->getCoordinates().second - sourceLocation->getCoordinates().second);
 	}
 	this->graph.addEdge((*sourceLocation), (*destLocation), trueWeight);
-	this->viewer->addEdge(edgeCounter,sourceLocation->getId(), destLocation->getId(),EdgeType().DIRECTED);
+	this->viewer->addEdge(Street::getCurrentId(),sourceLocation->getId(), destLocation->getId(),EdgeType().DIRECTED);
 	this->viewer->rearrange();
-	edgeCounter++;
+	Street::incCurrentId();
 }
 
 void GarbageManagement::addVehicle(int id, Vehicle * vehicle)
@@ -176,11 +174,12 @@ void GarbageManagement::removeStation(long id){
 void GarbageManagement::removeEdge(pair<long,long> vertexesCoord)
 {
 	long edgeID;
-	for(unsigned int i = 0; i< this->getEdges().size(); i++)
+	for(unsigned int i = 0; i< this->getStreets().size(); i++)
 	{
-		if(this->getEdges()[i].second == vertexesCoord){
-			edgeID = this->getEdges()[i].first;
-			this->getEdges().erase(this->getEdges().begin()+i);
+		pair<long,long> tempVertexesCoord = pair<long,long>(this->getStreets()[i]->getLocation1()->getId(),this->getStreets()[i]->getLocation2()->getId());
+		if( tempVertexesCoord == vertexesCoord){
+			edgeID = this->getStreets()[i]->getId();
+			this->streets.erase(this->streets.begin()+i);
 			break;
 		}
 	}
@@ -276,11 +275,12 @@ Station * GarbageManagement::getStation(long id)
 
 void GarbageManagement::setExistingEdges(long id)
 {
-	for(unsigned int i = 0; i < this->edges.size(); i++)
+	for(unsigned int i = 0; i < this->getStreets().size(); i++)
 	{
-		if(this->edges[i].second.first == id || this->edges[i].second.second == id)
+		pair<long,long> tempVertexesCoord = pair<long,long>(this->getStreets()[i]->getLocation1()->getId(),this->getStreets()[i]->getLocation2()->getId());
+		if(tempVertexesCoord.first == id || tempVertexesCoord.second == id)
 		{
-			this->addEdge2(0,this->edges[i].second);
+			this->addEdge2(0,tempVertexesCoord);
 		}
 	}
 }
