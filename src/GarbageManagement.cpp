@@ -1208,6 +1208,7 @@ Street * GarbageManagement::findStreetExact(string input)
 		if(isNameStreet == true)
 		{
 			resStreet = streets[i];
+			break;
 		}
 	}
 
