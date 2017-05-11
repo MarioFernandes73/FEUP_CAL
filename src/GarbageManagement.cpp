@@ -1145,11 +1145,85 @@ for(unsigned int i = 0; i < this->graph.getVertexSet().size(); i++)
 	}
 }
 
-Street * GarbageManagement::findStreetExact(string input){
+
+
+
+
+
+void pre_kmp(string pattern, vector<int> & prefix)
+{
+	//		padrao -> string			prefixo -> vetor de ints
+
+	int m=pattern.length();				// m -> tamanho do padrao
+	prefix[0]=-1;						//primeiro elemento do prefixo é -1
+	int k=-1;
+	for (int q=1; q<m; q++) {			//Percorrer desde 1 ate m-1 (Ciclo executa 1 vez menos que o tamanho do padrao)
+		while (k>-1 && pattern[k+1]!=pattern[q])	//Ciclo que executa enquanto k > -1 e enquanto o char de indice k+1 do padrao for diferente do char de indice q do padrao
+			k = prefix[k];
+		if (pattern[k+1]==pattern[q]) k=k+1;		//se o char de indice k+1 do padrao for igual ao char de indice q do padrao, k++
+		prefix[q]=k;								//o char de indice q = k
+	}
+}
+
+bool kmp(string text, string pattern)
+{
+	//	text -> string		padrao -> string
+	int num=0;
+	int m=pattern.length();			// m -> tamanho do padrao
+	vector<int> prefix(m);			//prefix -> vetor de ints com o mesmo tamanho que o padrao
+	pre_kmp(pattern, prefix);
+
+	int n=text.length();			// n -> tamanho de text
+
+	int q=-1;
+	for (int i=0; i<n; i++) {		//Percorrer desde 1 ate n-1 (Ciclo executa n vezes (tamanho de text)
+		while (q>-1 && pattern[q+1]!=text[i])		//Ciclo que executa enquanto q > -1 e enquanto o char de indice q+1 do padrao for diferente to char de indice i de text
+			q=prefix[q];
+		if (pattern[q+1]==text[i])		//Se o char de indice q+1 do padrao for igual ao char de indice i do text, q++
+			q++;
+		if (q==m-1) {					//Se q == (m-1), informar que o padrao ovorre com desvio de i-m+1
+			//cout <<"pattern occurs with shift" << i-m+1 << endl;
+			return true;
+			//num++;
+			q=prefix[q];
+		}
+	}
+	return false;
+}
+
+
+Street * GarbageManagement::findStreetExact(string input)
+{
 	Street * resStreet = NULL;
+
+	string eachStreet;
+	int num = 0;
+	bool isNameStreet = false;
+
+	for(unsigned int i = 0; i < streets.size(); i++)
+	{
+		eachStreet = streets[i]->getName();
+		isNameStreet = kmp(eachStreet, input);
+
+		if(isNameStreet == true)
+		{
+			resStreet = streets[i];
+			break;
+		}
+	}
 
 	return resStreet;
 }
+
+
+
+
+
+
+
+
+
+
 
 Street * GarbageManagement::findStreetAproximated(string input, int distance){
 	Street * resStreet = NULL;
