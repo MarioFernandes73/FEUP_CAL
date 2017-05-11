@@ -1191,7 +1191,6 @@ bool kmp(string text, string pattern)
 	return false;
 }
 
-
 Street * GarbageManagement::findStreetExact(string input)
 {
 	Street * resStreet = NULL;
@@ -1218,21 +1217,169 @@ Street * GarbageManagement::findStreetExact(string input)
 
 
 
+string removeSpaces(string input)
+{
+  input.erase(std::remove(input.begin(),input.end(),' '),input.end());
+  return input;
+}
 
-
-
-
-
-
+int editDistance(string pattern, string text)
+{
+	//			padrao -> string	text -> string
+	int n=text.length();			// n -> tamanho de text
+	vector<int> d(n+1);				// d - > vector com tamanho n+1
+	int old,neww;
+	for (int j=0; j<=n; j++)	//Ciclo que percorre n+1 vezes
+		d[j]=j;					//elemento de indice j do vetor d = j
+	int m=pattern.length();			// m -> tamanho de padrao
+	for (int i=1; i<=m; i++) {		//Ciclo que percorre m vezes
+		old = d[0];					// old = elemento de indice 0 do vetor d
+		d[0]=i;						// elemento de indice 0 do vetor d = i
+		for (int j=1; j<=n; j++) {		//Ciclo que percorre n vezes
+			if (pattern[i-1]==text[j-1]) neww = old;	//Se o char de indice i-1 do padrao for igual ao char de indice j-1 de text, neww = old
+			else {										//else:
+				neww = min(old,d[j]);
+				neww = min(neww,d[j-1]);
+				neww = neww +1;
+			}
+			old = d[j];				//old = elemento de indice j do vetor d
+			d[j] = neww;			// elemento de indice j do vetor d = neww
+		}
+	}
+	return d[n];
+}
 
 Street * GarbageManagement::findStreetAproximated(string input, int distance){
+
 	Street * resStreet = NULL;
+
+	string eachStreet;
+	int num = 0;
+	input = removeSpaces(input);
+	vector<int> distances;
+	pair<int, int> minimumDistance;
+
+	for(unsigned int i = 0; i < streets.size(); i++)
+	{
+		eachStreet = streets[i]->getName();
+
+		eachStreet = removeSpaces(eachStreet);
+		num = editDistance(input, eachStreet);
+
+		if(num <= distance)
+		{
+			distances.push_back(num);
+		}
+
+		else if(num > distance)
+		{
+			distances.push_back(1000);
+		}
+	}
+
+	//At this stage we got a vector with the same number of elements as the vector of streets, and in each position there's the
+	//distance of each street. Example: on distances[0] there's the distance of the streets[0].
+
+	for(unsigned int i = 0; i < distances.size(); i++)
+	{
+		if(i == 0)
+		{
+			minimumDistance.first = 0;
+			minimumDistance.second = distances[0];
+		}
+		else
+		{
+			if(distances[i] < minimumDistance.second)
+			{
+				minimumDistance.first = i;
+				minimumDistance.second = distances[i];
+			}
+		}
+	}
+
+	int theIndex;
+
+	if(minimumDistance.second >= 1000)
+	{
+		//cout << "Error - Couldn't find Street with such name." << endl << endl;
+		return resStreet;
+	}
+	else if (minimumDistance.second < 1000)
+	{
+		theIndex = minimumDistance.first;
+		resStreet = streets[theIndex];
+	}
 
 	return resStreet;
 }
 
-vector<Street *> GarbageManagement::findAllStreetAproximated(string input, int distance){
-	vector<Street *> resStreets;
 
-	return resStreets;
+
+
+vector<Street *> GarbageManagement::findAllStreetAproximated(string input, int distance){
+	vector <Street *> resVStreet;
+
+	Street * resStreet = NULL;
+
+		string eachStreet;
+		int num = 0;
+		input = removeSpaces(input);
+		vector<int> distances;
+		pair<int, int> minimumDistance;
+
+		for(unsigned int i = 0; i < streets.size(); i++)
+		{
+			eachStreet = streets[i]->getName();
+
+			eachStreet = removeSpaces(eachStreet);
+			num = editDistance(input, eachStreet);
+
+			if(num <= distance)
+			{
+				distances.push_back(num);
+			}
+
+			else if(num > distance)
+			{
+				distances.push_back(1000);
+			}
+		}
+
+		//At this stage we got a vector with the same number of elements as the vector of streets, and in each position there's the
+		//distance of each street. Example: on distances[0] there's the distance of the streets[0].
+		for(unsigned int j = 0; j < 5; j++)
+		{
+			for(unsigned int i = 0; i < distances.size(); i++)
+			{
+				if(i == 0)
+				{
+					minimumDistance.first = 0;
+					minimumDistance.second = distances[0];
+				}
+				else
+				{
+					if(distances[i] < minimumDistance.second)
+					{
+						minimumDistance.first = i;
+						minimumDistance.second = distances[i];
+					}
+				}
+			}
+
+			int theIndex;
+
+			if(minimumDistance.second >= 1000)
+			{
+				return resVStreet;
+			}
+			else if (minimumDistance.second < 1000)
+			{
+				theIndex = minimumDistance.first;
+				resStreet = streets[theIndex];
+				distance[theIndex] = 1000;
+				resVStreet.push_back(resStreet);
+			}
+		}
+
+		return resStreet;
 }
