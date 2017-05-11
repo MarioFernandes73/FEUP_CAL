@@ -1168,7 +1168,6 @@ void pre_kmp(string pattern, vector<int> & prefix)
 bool kmp(string text, string pattern)
 {
 	//	text -> string		padrao -> string
-	int num=0;
 	int m=pattern.length();			// m -> tamanho do padrao
 	vector<int> prefix(m);			//prefix -> vetor de ints com o mesmo tamanho que o padrao
 	pre_kmp(pattern, prefix);
@@ -1182,9 +1181,7 @@ bool kmp(string text, string pattern)
 		if (pattern[q+1]==text[i])		//Se o char de indice q+1 do padrao for igual ao char de indice i do text, q++
 			q++;
 		if (q==m-1) {					//Se q == (m-1), informar que o padrao ovorre com desvio de i-m+1
-			//cout <<"pattern occurs with shift" << i-m+1 << endl;
 			return true;
-			//num++;
 			q=prefix[q];
 		}
 	}
@@ -1197,14 +1194,12 @@ Street * GarbageManagement::findStreetExact(string input)
 	Street * resStreet = NULL;
 
 	string eachStreet;
-	int num = 0;
 	bool isNameStreet = false;
 
 	for(unsigned int i = 0; i < streets.size(); i++)
 	{
 		eachStreet = streets[i]->getName();
 		isNameStreet = kmp(eachStreet, input);
-
 		if(isNameStreet == true)
 		{
 			resStreet = streets[i];

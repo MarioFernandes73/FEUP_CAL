@@ -18,22 +18,24 @@ int main() {
 
 	// load files
 	cout << "Would you like to load vertexes and edges?" << endl;
-	if (confirm()) {
+//	if (confirm()) {
 		cout << "Is this your first time running these files?" << endl;
 		bool value = confirm();
 		vertexParser(management, value);
 		edgesParser(management);
-	}
+//	}
+
+	//management.findStreetExact("z");
 
 	// call interface
-	initialOptions(management);
+	//initialOptions(management);
 
 	// save files
 	cout << "Would you like to save vertexes and edges?" << endl;
-	if (confirm()) {
+	/*if (confirm()) {
 		saveVertexes(management);
 		saveEdges(management);
 	}
-
+*/
 	return 0;
 }

@@ -56,7 +56,7 @@ public:
 	void addGarage(Garage * garage);
 	void addEdge2(double weight, std::pair<long,long> vertexesCoord);
 	void addEdge(double weight, std::pair<long,long> vertexesCoord, std::string name);
-	void addEdge(double weight, std::pair<long,long> vertexesCoord){this->addEdge(weight, vertexesCoord, "");}
+	void addEdge(double weight, std::pair<long,long> vertexesCoord){this->addEdge(weight, vertexesCoord, "default street");}
 	void addVehicle(int id, Vehicle * vehicle);
 	void addVehicleType(garbageType type, std::string plate);
 	void removeVehicleType(garbageType type, std::string plate);

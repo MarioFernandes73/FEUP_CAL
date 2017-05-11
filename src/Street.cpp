@@ -14,6 +14,7 @@ Street::Street(std::string name, Location * vertex1, Location * vertex2) {
 this->id = this->idCounterStreet;
 this->vertex1 = vertex1;
 this->vertex2 = vertex2;
+this->name = name;
 this->idCounterStreet++;
 }
 
