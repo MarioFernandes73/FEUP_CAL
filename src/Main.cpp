@@ -25,10 +25,17 @@ int main() {
 		edgesParser(management);
 //	}
 
-	//management.findStreetExact("z");
+
+	//Street * temp = management.findStreetExact("t s");
+	//cout << temp->getName() << endl;
+
+	Street * temp = management.findStreetAproximated("az",0);
+	cout << temp->getName() << endl;
 
 	// call interface
-	//initialOptions(management);
+	initialOptions(management);
+
+	//management.findStreetAproximated("")
 
 	// save files
 	cout << "Would you like to save vertexes and edges?" << endl;

@@ -20,8 +20,8 @@
 void createLocation(string&name, pair<double, double>&coordinates);
 Location * createNewLocation();
 Garage * createGarage();
-Container * createContainer();
 Station * createStation();
+Container * createContainer();
 
 long getLocationID();
 long getStationID();
@@ -35,6 +35,9 @@ double getQuantity();
 /*********
  * Edges *
  *********/
+std::string getContainerFirstStreet();
+std::string getContainerSecondStreet();
+std::string createEdgeName();
 pair<long, long> createEdge();
 double createEdgeWeight();
 
@@ -44,5 +47,6 @@ double createEdgeWeight();
 Vehicle * createVehicle();
 
 int getAlgorithm();
+int exactOrAproximated();
 
 #endif /* INTERACTION_H_ */

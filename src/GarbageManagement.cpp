@@ -12,6 +12,7 @@
 #include <algorithm>
 #include <ctime>
 
+long GarbageManagement::edgeCounter = 0;
 const int typeGarage = 1;
 const int typeContainer = 2;
 const int typeStation = 3;
@@ -47,8 +48,7 @@ void GarbageManagement::addGarage(Garage * garage)
 	this->viewer->rearrange();
 }
 
-void GarbageManagement::addContainer(Container * container)
-{
+void GarbageManagement::addContainer(Container * container){
 	this->containers.push_back(container);
 	this->graph.addVertex((*container));
 	this->viewer->addNode(container->getId(),container->getCoordinates().first, container->getCoordinates().second);
@@ -65,6 +65,22 @@ void GarbageManagement::addStation(Station * station)
 	this->viewer->rearrange();
 }
 
+void GarbageManagement::addEdge(double weight, pair<long,long> vertexesCoord){
+	stringstream ss;
+	//test
+	if(counter == 0){
+		ss << "azx";
+		counter ++;
+	} else {
+		ss << "default street" << this->edgeCounter;
+	}
+
+
+	this->addEdge(weight, vertexesCoord, ss.str());
+	this->edgeCounter++;
+}
+
+
 void GarbageManagement::addEdge(double weight, pair<long,long> vertexesCoord, string name)
 {
 	double trueWeight = weight;
@@ -80,6 +96,7 @@ void GarbageManagement::addEdge(double weight, pair<long,long> vertexesCoord, st
 	this->streets.push_back(newStreet);
 	this->graph.addEdge((*sourceLocation), (*destLocation), trueWeight);
 	this->viewer->addEdge(newStreet->getId(),sourceLocation->getId(), destLocation->getId(),EdgeType().DIRECTED);
+	this->viewer->setEdgeLabel(newStreet->getId(),name);
 	this->viewer->rearrange();
 }
 
@@ -294,8 +311,7 @@ void GarbageManagement::setGarage(long id)
 	this->setExistingEdges(id);
 }
 
-void GarbageManagement::setContainer(long id, garbageType type, double quantity)
-{
+void GarbageManagement::setContainer(long id, garbageType type, double quantity){
 	Location * location = this->getGenericLocation(id);
 	Container * container = new Container(id, location->getCoordinates(), type, quantity);
 	this->removeLocation(id);
@@ -1244,137 +1260,151 @@ int editDistance(string pattern, string text)
 	return d[n];
 }
 
-Street * GarbageManagement::findStreetAproximated(string input, int distance){
+vector<vector<int>> GarbageManagement::makeAproximateDistanceVec(string input, string street){
 
+	stringstream ss , ss2;		// ss for eachstreet and ss2 for input
+	ss << street;
+	vector<vector<int>> allTempNums;	//vector of all distance vectors of a current street
+
+	while(!ss.eof()){			//iterates through each word of every street
+		vector<int> tempNums;	// each word will have an associated distance vector
+		string streetTemp;
+		ss >> streetTemp;
+		ss2.clear();
+		ss2.str("");
+		ss2 << input;
+
+		while(!ss2.eof()){		//during each word of every street iteration, checks for similar inputs
+			string inputTemp;
+			ss2 >> inputTemp;
+			tempNums.push_back(editDistance(inputTemp, streetTemp));	// pushes to temporary vector
+		}
+		allTempNums.push_back(tempNums);
+	}
+
+return allTempNums;
+}
+
+void GarbageManagement::makeMinimumDistanceVec(vector<vector<int>> allTempNums, unsigned int nWords, vector<int>&distancesFinal){
+
+	vector<int> distances;
+
+	// this street's name has to have AT LEAST nWords number of words
+	if(allTempNums.size() < nWords){
+		distances.push_back(1000);
+	}
+	else{
+		for (unsigned int j = 0; j < allTempNums.size(); j++){
+			//cout << streets[i]->getName() << " palavra numero " << j << endl;
+			if(allTempNums.size()-j < nWords )
+				break;
+
+				for(unsigned int k = 0; k < allTempNums[j].size(); k++){
+					// verifies if the street being iterated has enough words to satisfy input (ex: input lenght = 3 words, street HAS to have at least 3 words)
+					bool br = false;
+					int minDistance = allTempNums[j][k];
+					for(unsigned int l = 1; l < nWords; l++){
+						if(allTempNums[j+l].size() < k+l+1){
+							br = true;
+							break;
+						}
+						minDistance +=  allTempNums[j+l][k+l];
+					}
+					if(br){
+						break;
+					}
+					distances.push_back(minDistance);
+
+
+
+
+					//cout << minDistance << endl;
+					//cout << allTempNums[j][k] + allTempNums[j+1][k+1] << endl;
+				}
+		}
+	}
+
+	distancesFinal.push_back(*min_element(distances.begin(), distances.end()));
+
+}
+
+vector<int> GarbageManagement::findAllStreetAproximatedDistances(string input){
+
+	vector<int> distances;
+	unsigned int nWords = 1;
+
+	for(unsigned int i=0; i < input.size(); i++){
+		if (input[i]==' '){
+			nWords++;
+		}
+	}
+
+	for(unsigned int i = 0; i < streets.size(); i++){
+
+		vector<vector<int>> allTempNums = makeAproximateDistanceVec(input, streets[i]->getName());
+
+		//cout << "ALL TEMP NUMS SIZE " << allTempNums.size() << endl;
+		//cout << "nWords " << nWords << endl;
+
+		//cout << streets[i]->getName() << endl;
+
+		makeMinimumDistanceVec(allTempNums,  nWords, distances);
+
+		//cout << "NEXT STREET" << endl;
+	}
+	/*for(unsigned int i = 0; i < distances.size(); i++){
+		cout << "street " << i <<" " <<distances[i] << endl;
+	}*/
+
+	return distances;
+}
+
+Street * GarbageManagement::findStreetAproximated(std::string input, int distance){
 	Street * resStreet = NULL;
 
-	string eachStreet;
-	int num = 0;
-	input = removeSpaces(input);
-	vector<int> distances;
-	pair<int, int> minimumDistance;
+	vector <int> distances = this->findAllStreetAproximatedDistances(input);
 
-	for(unsigned int i = 0; i < streets.size(); i++)
-	{
-		eachStreet = streets[i]->getName();
+	int elem = (*min_element(distances.begin(), distances.end()));
 
-		eachStreet = removeSpaces(eachStreet);
-		num = editDistance(input, eachStreet);
-
-		if(num <= distance)
-		{
-			distances.push_back(num);
+	for(unsigned int i = 0; i < distances.size(); i++){
+		if(elem == distances[i]){
+			resStreet = this->streets[i];
 		}
-
-		else if(num > distance)
-		{
-			distances.push_back(1000);
-		}
-	}
-
-	//At this stage we got a vector with the same number of elements as the vector of streets, and in each position there's the
-	//distance of each street. Example: on distances[0] there's the distance of the streets[0].
-
-	for(unsigned int i = 0; i < distances.size(); i++)
-	{
-		if(i == 0)
-		{
-			minimumDistance.first = 0;
-			minimumDistance.second = distances[0];
-		}
-		else
-		{
-			if(distances[i] < minimumDistance.second)
-			{
-				minimumDistance.first = i;
-				minimumDistance.second = distances[i];
-			}
-		}
-	}
-
-	int theIndex;
-
-	if(minimumDistance.second >= 1000)
-	{
-		//cout << "Error - Couldn't find Street with such name." << endl << endl;
-		return resStreet;
-	}
-	else if (minimumDistance.second < 1000)
-	{
-		theIndex = minimumDistance.first;
-		resStreet = streets[theIndex];
 	}
 
 	return resStreet;
 }
 
 
-
-
 vector<Street *> GarbageManagement::findAllStreetAproximated(string input, int distance){
-	vector <Street *> resVStreet;
+	vector <Street *> resStreets;
 
-	Street * resStreet = NULL;
+	vector <int> distances = this->findAllStreetAproximatedDistances(input);
 
-		string eachStreet;
-		int num = 0;
-		input = removeSpaces(input);
-		vector<int> distances;
-		pair<int, int> minimumDistance;
+		return resStreets;
+}
 
-		for(unsigned int i = 0; i < streets.size(); i++)
-		{
-			eachStreet = streets[i]->getName();
+Location * GarbageManagement::getStreetCorner(Street * s1, Street* s2){
+	pair<pair<double,double>,pair<double,double>> s1Coord;
+	pair<pair<double,double>,pair<double,double>> s2Coord;
+	s1Coord.first = s1->getLocation1()->getCoordinates();
+	s1Coord.second = s1->getLocation2()->getCoordinates();
+	s2Coord.first = s2->getLocation1()->getCoordinates();
+	s2Coord.second = s2->getLocation2()->getCoordinates();
 
-			eachStreet = removeSpaces(eachStreet);
-			num = editDistance(input, eachStreet);
+	if(s1Coord.first == s2Coord.first || s1Coord.first == s2Coord.second )
+		return this->getLocation(s1Coord.first);
+	else if (s1Coord.second == s2Coord.first || s1Coord.second == s2Coord.second){
+		return this->getLocation(s1Coord.second);
+	} else
 
-			if(num <= distance)
-			{
-				distances.push_back(num);
-			}
+	return NULL;
+}
 
-			else if(num > distance)
-			{
-				distances.push_back(1000);
-			}
-		}
-
-		//At this stage we got a vector with the same number of elements as the vector of streets, and in each position there's the
-		//distance of each street. Example: on distances[0] there's the distance of the streets[0].
-		for(unsigned int j = 0; j < 5; j++)
-		{
-			for(unsigned int i = 0; i < distances.size(); i++)
-			{
-				if(i == 0)
-				{
-					minimumDistance.first = 0;
-					minimumDistance.second = distances[0];
-				}
-				else
-				{
-					if(distances[i] < minimumDistance.second)
-					{
-						minimumDistance.first = i;
-						minimumDistance.second = distances[i];
-					}
-				}
-			}
-
-			int theIndex;
-
-			if(minimumDistance.second >= 1000)
-			{
-				return resVStreet;
-			}
-			else if (minimumDistance.second < 1000)
-			{
-				theIndex = minimumDistance.first;
-				resStreet = streets[theIndex];
-				distance[theIndex] = 1000;
-				resVStreet.push_back(resStreet);
-			}
-		}
-
-		return resStreet;
+Location * GarbageManagement::getLocation(pair<double,double> coord){
+	for(unsigned int i = 0; i < this->genericLocations.size(); i++){
+		if(this->genericLocations[i]->getCoordinates() == coord)
+			return this->genericLocations[i];
+	}
+	return NULL;
 }

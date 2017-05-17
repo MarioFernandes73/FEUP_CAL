@@ -85,16 +85,15 @@ Garage * createGarage() {
 	return new Garage(name, coordinates);
 }
 
-Container * createContainer() {
-	string name, temp;
-	pair<double, double> coordinates;
-	double quantity;
-	garbageType type;
+string getContainerFirstStreet(){
+	cout << "Containers can only be created in the corner of two streets." << endl;
+	cout << "First street." << endl;
+	return createEdgeName();
+}
 
-	createLocation(name, coordinates);
-	type = getGarbageType();
-	quantity = getQuantity();
-	return new Container(name, coordinates, type, quantity);
+string getContainerSecondStreet(){
+	cout << "Second street." << endl;
+	return createEdgeName();
 }
 
 double getQuantity() {
@@ -142,6 +141,25 @@ long getDestLocationID() {
 	return getInt();
 }
 
+Container * createContainer() {
+	string name, temp;
+	pair<double, double> coordinates;
+	double quantity;
+	garbageType type;
+
+	createLocation(name, coordinates);
+	type = getGarbageType();
+	quantity = getQuantity();
+	return new Container(name, coordinates, type, quantity);
+}
+
+string createEdgeName(){
+	string name = "";
+	cout << "Enter the name of the street" << endl;
+	getline(cin,name);
+	return name;
+}
+
 pair<long, long> createEdge() {
 	pair<long, long> vertexesIDs;
 	vertexesIDs.first = getSourceLocationID();
@@ -186,4 +204,22 @@ int getAlgorithm() {
 	cout
 			<< "Enter the algorithm you wish to use (1 - FloydWarshall, 2 - Dijkstra): ";
 	return readUnsignedShortInt(1, 2);
+}
+
+int exactOrAproximated(){
+	string temp;
+	int res;
+	cout << "Would you like to search for the streets using the exact(1) or aproximated(2) method?" << endl;
+	do{
+		getline(cin,temp);
+		if(temp == "1"){
+			res = 1;
+			break;
+		} else if(temp == "2") {
+			res = 2;
+			break;
+		}
+	}while(true);
+
+return res;
 }

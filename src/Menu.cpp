@@ -93,6 +93,7 @@ short int settingsMenu() {
 	cout << TAB << "3 - Set Station" << endl;
 	cout << TAB << "4 - Fill Container" << endl;
 	cout << TAB << "5 - Clear Container" << endl;
+	cout << TAB << "6 - Find Container" << endl;
 	cout << TAB << "0 - Back" << endl;
 	cout << endl;
 	cout << "Please write your option here: ";
@@ -126,24 +127,23 @@ void initialOptions(GarbageManagement & management) {
 				break;
 			case 7:
 				clock_t begin = clock();
-				for(unsigned int i = 0; i < 100 ; i++)
-				{
+				for (unsigned int i = 0; i < 100; i++) {
 					management.collectGarbage(1);
 				}
 				clock_t middle = clock();
-				for(unsigned int i = 0; i < 100 ; i++)
-				{
+				for (unsigned int i = 0; i < 100; i++) {
 					management.collectGarbage(2);
 				}
 				clock_t end = clock();
-				cout << "Floyd Warshall's:" << double(middle - begin) / CLOCKS_PER_SEC << endl;
-				cout << "Dijkstra's:" << double(end - middle) / CLOCKS_PER_SEC << endl;
+				cout << "Floyd Warshall's:"
+						<< double(middle - begin) / CLOCKS_PER_SEC << endl;
+				cout << "Dijkstra's:" << double(end - middle) / CLOCKS_PER_SEC
+						<< endl;
 
 			}
 		} catch (OutOfBondsException& e) {
 			cout << endl << "Value is out of bonds!" << endl;
-		}
-		catch (ImpossibleException& e) {
+		} catch (ImpossibleException& e) {
 			cout << endl << "Impossible graph to collect garbage from." << endl;
 		}
 }
@@ -190,7 +190,8 @@ void edgeOptions(GarbageManagement & management) {
 		try {
 			switch (option = edgeMenu()) {
 			case 1:
-				management.addEdge(createEdgeWeight(), createEdge());
+				management.addEdge(createEdgeWeight(), createEdge(),
+						createEdgeName());
 				break;
 			case 2:
 				management.removeEdge(createEdge());
@@ -249,10 +250,36 @@ void settingsOptions(GarbageManagement & management) {
 			case 5:
 				management.clearContainer(getLocationID());
 				break;
+			case 6: {
+				Location * existingLocation;
+				if (exactOrAproximated() == 1) {
+					Street * street1 = management.findStreetExact(
+							getContainerFirstStreet());
+					if (!street1)
+						throw NoStreetFoundException();
+					Street * street2 = management.findStreetExact(
+							getContainerSecondStreet());
+					if (!street2)
+						throw NoStreetFoundException();
+					existingLocation = management.getStreetCorner(street1,
+							street2);
+					if (!existingLocation) {
+						throw StreetsInterceptException();
+					}
+				} else {
+
+				}
+				cout << existingLocation->getId() << endl;
+			}
+				break;
 			}
 		} catch (OutOfBondsException& e) {
 			cout << endl << "Value is out of bonds!" << endl;
 		} catch (NoValidEntryException& e) {
 			cout << endl << "You have entered a non valid entry." << endl;
+		} catch (NoStreetFoundException& e) {
+			cout << "No such street has been found" << endl;
+		} catch (StreetsInterceptException& e) {
+			cout << "Streets don't intercept!" << endl;
 		}
 }

@@ -31,4 +31,18 @@ public:
 	;
 };
 
+class NoStreetFoundException{
+public:
+	NoStreetFoundException(){
+	}
+	;
+};
+
+class StreetsInterceptException{
+public:
+	StreetsInterceptException(){
+	}
+	;
+};
+
 #endif

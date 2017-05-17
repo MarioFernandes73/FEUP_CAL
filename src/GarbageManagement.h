@@ -37,7 +37,6 @@ private:
 	std::vector <Container *> containers;
 	std::vector <Station *> stations;
 	std::vector<Street *> streets;
-	//std::vector <std::pair<long,std::pair<long,long>>> edges;
 
 public:
 	GarbageManagement();
@@ -48,7 +47,6 @@ public:
 	std::vector <Container *> getContainers(){return this->containers;}
 	std::vector <Station *> getStations(){return this->stations;}
 	std::vector<Street *> getStreets(){return this->streets;}
-	//std::vector <std::pair<long,std::pair<long,long>>> getEdges(){return this->edges;}
 
 	void addLocation(Location * location);
 	void addStation(Station * station);
@@ -56,7 +54,7 @@ public:
 	void addGarage(Garage * garage);
 	void addEdge2(double weight, std::pair<long,long> vertexesCoord);
 	void addEdge(double weight, std::pair<long,long> vertexesCoord, std::string name);
-	void addEdge(double weight, std::pair<long,long> vertexesCoord){this->addEdge(weight, vertexesCoord, "default street");}
+	void addEdge(double weight, std::pair<long,long> vertexesCoord);
 	void addVehicle(int id, Vehicle * vehicle);
 	void addVehicleType(garbageType type, std::string plate);
 	void removeVehicleType(garbageType type, std::string plate);
@@ -108,6 +106,11 @@ public:
 	Street * findStreetExact(std::string input);
 	Street * findStreetAproximated(std::string input, int distance);
 	vector<Street *> findAllStreetAproximated(std::string input, int distance);
+	vector<int> findAllStreetAproximatedDistances(std::string input);
+	Location * getStreetCorner(Street * s1, Street* s2);
+	Location * getLocation(pair<double,double> coord);
+	vector<vector<int>> makeAproximateDistanceVec(std::string input, std::string street);
+	void makeMinimumDistanceVec(vector<vector<int>> allTempNums, unsigned int nWords, vector<int>&minimumDistance);
 
 };
 
