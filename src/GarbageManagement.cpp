@@ -1315,9 +1315,6 @@ void GarbageManagement::makeMinimumDistanceVec(vector<vector<int>> allTempNums, 
 					}
 					distances.push_back(minDistance);
 
-
-
-
 					//cout << minDistance << endl;
 					//cout << allTempNums[j][k] + allTempNums[j+1][k+1] << endl;
 				}
