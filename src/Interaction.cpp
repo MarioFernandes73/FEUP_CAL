@@ -223,3 +223,26 @@ int exactOrAproximated(){
 
 return res;
 }
+
+int askDistance(){
+	cout << "Would you like a certain distance?";
+	if(!confirm()){
+		return -1;
+	}
+	cout << "Please enter a reasonable distance: " << endl;
+	return readUnsignedShortInt(0, 50);
+}
+
+Street * selectBestStreet(vector<Street *> streetVec){
+	cout << "Please select the street you wish to register." << endl;
+	for(unsigned int i = 0; i < streetVec.size(); i++){
+		if(i > 7)
+			break;
+		cout << i << " - " << streetVec[i]->getName() << endl;
+	}
+	return streetVec[readUnsignedShortInt(0,7)];
+}
+
+void presentLocation(Location * loc){
+	cout << "Your container has the id " << loc->getId() << " and is called " << loc->getName() << endl;
+}

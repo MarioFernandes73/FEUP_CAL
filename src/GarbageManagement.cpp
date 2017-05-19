@@ -67,15 +67,7 @@ void GarbageManagement::addStation(Station * station)
 
 void GarbageManagement::addEdge(double weight, pair<long,long> vertexesCoord){
 	stringstream ss;
-	//test
-	if(counter == 0){
-		ss << "azx";
-		counter ++;
-	} else {
-		ss << "default street" << this->edgeCounter;
-	}
-
-
+	ss << "default street" << this->edgeCounter;
 	this->addEdge(weight, vertexesCoord, ss.str());
 	this->edgeCounter++;
 }
@@ -1222,6 +1214,8 @@ Street * GarbageManagement::findStreetExact(string input)
 		}
 	}
 
+	if(!resStreet)
+		throw NoStreetFoundException();
 	return resStreet;
 }
 
@@ -1349,9 +1343,6 @@ vector<int> GarbageManagement::findAllStreetAproximatedDistances(string input){
 
 		//cout << "NEXT STREET" << endl;
 	}
-	/*for(unsigned int i = 0; i < distances.size(); i++){
-		cout << "street " << i <<" " <<distances[i] << endl;
-	}*/
 
 	return distances;
 }
@@ -1363,6 +1354,9 @@ Street * GarbageManagement::findStreetAproximated(std::string input, int distanc
 
 	int elem = (*min_element(distances.begin(), distances.end()));
 
+	if(elem >distance)
+		return resStreet;
+
 	for(unsigned int i = 0; i < distances.size(); i++){
 		if(elem == distances[i]){
 			resStreet = this->streets[i];
@@ -1373,12 +1367,33 @@ Street * GarbageManagement::findStreetAproximated(std::string input, int distanc
 }
 
 
-vector<Street *> GarbageManagement::findAllStreetAproximated(string input, int distance){
+vector<Street *> GarbageManagement::findAllStreetAproximated(string input){
 	vector <Street *> resStreets;
 
 	vector <int> distances = this->findAllStreetAproximatedDistances(input);
 
-		return resStreets;
+	vector<int> tempDistances = distances;
+
+	sort(tempDistances.begin(),tempDistances.end());
+
+	for(unsigned int i=0; i <tempDistances.size(); i++){
+		for(unsigned int j = 0; j < distances.size(); j++){
+			bool repeated = false;
+			for(unsigned int k = 0; k < resStreets.size(); k++){
+				if(resStreets[k]->getId() == streets[j]->getId())
+					repeated = true;
+			}
+
+			if(repeated)
+				continue;
+
+			if(tempDistances[i] == distances[j] ){
+				resStreets.push_back(streets[j]);
+			}
+		}
+	}
+
+	return resStreets;
 }
 
 Location * GarbageManagement::getStreetCorner(Street * s1, Street* s2){
@@ -1393,7 +1408,9 @@ Location * GarbageManagement::getStreetCorner(Street * s1, Street* s2){
 		return this->getLocation(s1Coord.first);
 	else if (s1Coord.second == s2Coord.first || s1Coord.second == s2Coord.second){
 		return this->getLocation(s1Coord.second);
-	} else
+	}
+
+	throw StreetsInterceptException();
 
 	return NULL;
 }

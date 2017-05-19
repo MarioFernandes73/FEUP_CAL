@@ -255,21 +255,36 @@ void settingsOptions(GarbageManagement & management) {
 				if (exactOrAproximated() == 1) {
 					Street * street1 = management.findStreetExact(
 							getContainerFirstStreet());
-					if (!street1)
-						throw NoStreetFoundException();
 					Street * street2 = management.findStreetExact(
 							getContainerSecondStreet());
-					if (!street2)
-						throw NoStreetFoundException();
 					existingLocation = management.getStreetCorner(street1,
 							street2);
-					if (!existingLocation) {
-						throw StreetsInterceptException();
-					}
 				} else {
+					string input1 = getContainerFirstStreet();
+					int distance1 = askDistance();
+					Street * street1;
+					vector<Street *> street1Vec;
+					if(distance1 > -1)
+						street1 = management.findStreetAproximated(input1,distance1);
+					else {
+						street1Vec = management.findAllStreetAproximated(input1);
+						street1 = selectBestStreet(street1Vec);
+					}
 
+					string input2 = getContainerSecondStreet();
+					int distance2 = askDistance();
+					Street * street2;
+					vector<Street *> street2Vec;
+					if(distance2 > -1)
+						street2 = management.findStreetAproximated(input2,distance2);
+					else {
+						street2Vec = management.findAllStreetAproximated(input2);
+						street2 = selectBestStreet(street2Vec);
+					}
+					existingLocation = management.getStreetCorner(street1,
+							street2);
 				}
-				cout << existingLocation->getId() << endl;
+				presentLocation(existingLocation);
 			}
 				break;
 			}

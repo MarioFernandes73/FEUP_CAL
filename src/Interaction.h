@@ -13,6 +13,7 @@
 #include "Station.h"
 #include "Garage.h"
 #include "Container.h"
+#include "Street.h"
 
 /************
  * Vertexes *
@@ -48,5 +49,8 @@ Vehicle * createVehicle();
 
 int getAlgorithm();
 int exactOrAproximated();
+int askDistance();
+Street * selectBestStreet(vector<Street *> streetVec);
+void presentLocation(Location * loc);
 
 #endif /* INTERACTION_H_ */

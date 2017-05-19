@@ -105,7 +105,7 @@ public:
 
 	Street * findStreetExact(std::string input);
 	Street * findStreetAproximated(std::string input, int distance);
-	vector<Street *> findAllStreetAproximated(std::string input, int distance);
+	vector<Street *> findAllStreetAproximated(std::string input);
 	vector<int> findAllStreetAproximatedDistances(std::string input);
 	Location * getStreetCorner(Street * s1, Street* s2);
 	Location * getLocation(pair<double,double> coord);

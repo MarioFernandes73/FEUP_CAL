@@ -89,8 +89,13 @@ void edgesParser(GarbageManagement &garbageManagement) {
 		ss.clear();
 		ss.str("");
 
-		garbageManagement.addEdge(0, vertexIds);
-
+		size_t found = line.find(";");
+		if(found!=string::npos){
+			line = line.substr(line.find(";") + 1);
+			garbageManagement.addEdge(0, vertexIds, line.substr(0, line.find(";")));
+		} else {
+			garbageManagement.addEdge(0, vertexIds);
+		}
 	}
 	EdgeFile.close();
 }
@@ -137,6 +142,6 @@ void saveEdges(GarbageManagement &garbageManagement) {
 	{
 		Street * tempStreet = garbageManagement.getStreets()[i];
 		EdgeFile << tempStreet->getId() << ";" << tempStreet->getLocation1()->getId() << ";"
-				<< tempStreet->getLocation2()->getId() << endl;
+				<< tempStreet->getLocation2()->getId() << ";" << tempStreet->getName() << endl;
 	}
 }
