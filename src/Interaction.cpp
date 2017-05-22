@@ -225,7 +225,7 @@ return res;
 }
 
 int askDistance(){
-	cout << "Would you like a certain distance?";
+	cout << "Would you like a certain distance?" << endl;
 	if(!confirm()){
 		return -1;
 	}
@@ -244,5 +244,5 @@ Street * selectBestStreet(vector<Street *> streetVec){
 }
 
 void presentLocation(Location * loc){
-	cout << "Your container has the id " << loc->getId() << " and is called " << loc->getName() << endl;
+	cout << "Your container has the id " << loc->getId() << endl;
 }

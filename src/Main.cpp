@@ -10,6 +10,7 @@
 #include "GarbageManagement.h"
 #include "Menu.h"
 #include "ParserOsm.h"
+#include <ctime>
 
 int main() {
 
@@ -27,7 +28,6 @@ int main() {
 
 	// call interface
 	initialOptions(management);
-
 
 	// save files
 	cout << "Would you like to save vertexes and edges?" << endl;
